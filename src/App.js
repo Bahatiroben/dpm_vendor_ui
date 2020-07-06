@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router";
+import { ToastContainer } from "react-toastify";
+import { Provider } from 'react-redux'
 import './App.css';
+import configureStore from './redux/store';
+import LoginPage from './components/login/LoginPage';
+import SignupPage from './components/signup/SignupPage'
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import AppTheme from './assets/styles/index';
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MuiThemeProvider theme={AppTheme}>
+      <Provider store={configureStore()}>
+        <ToastContainer />
+      <div className="App">
+        <Router>
+          <Switch>
+          <Route exact path="/register" component={SignupPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Redirect to="/404" />
+          </Switch>
+        </Router>
+      </div>
+      </Provider>
+    </MuiThemeProvider>
   );
 }
+
 
 export default App;
