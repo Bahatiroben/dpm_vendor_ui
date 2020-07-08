@@ -9,6 +9,8 @@ import LoginPage from './components/login/LoginPage';
 import SignupPage from './components/signup/SignupPage'
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import AppTheme from './assets/styles/index';
+import {Dashboard} from './components/dashboard/DashboardPage';
+import { SideNav} from './components/shared/sideNav/SideNav'
 
 function App(props) {
   return (
@@ -17,7 +19,9 @@ function App(props) {
         <ToastContainer />
       <div className="App">
         <Router>
+          <SideNav/>
           <Switch>
+          <Route exact path="/" component={Dashboard} />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/login" component={LoginPage} />
           <Redirect to="/404" />
