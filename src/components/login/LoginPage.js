@@ -9,7 +9,7 @@ import {useStyles} from './login.styles';
   
 const LoginPage = (props) => {
     const classes = useStyles();
-    return ( 
+    return (
         <Container className={classes.authContainer} maxWidth={false}>
         <TopNav/>
         <Grid className={classes.formContainer}>
