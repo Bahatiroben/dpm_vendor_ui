@@ -1,29 +1,8 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Grid, Input } from '@material-ui/core';
-import {Edit, Delete, Add, Search} from '@material-ui/icons'
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: '#CFCECA',
-    color: '#A2302F',
-    // fontSize: '20px'
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: '500',
-    fontSize: '20px',
-    lineHeight: '42px',
-    padding: '5px'
-  },
-  body: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '15px',
-    lineHeight: '35px',
-    padding: '0px 5px'
-  },
-}))(TableCell);
+import {Edit, Delete, Add, Search} from '@material-ui/icons';
+import { MakeRow } from '../tableRow/TableRow'
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
@@ -56,7 +35,8 @@ const useStyles = makeStyles({
 
 export default function BusesTable(props) {
   const classes = useStyles();
-  const {buses} = props;
+  const {tableBody, headers} = props;
+
   return (
       <>
     <Grid className={classes.tableContainer}>
@@ -72,24 +52,15 @@ export default function BusesTable(props) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="left"><Checkbox size="medium" className={classes.check}  style={{color: '#A2302F'}}/>Plate No</StyledTableCell>
-            <StyledTableCell align="left">From</StyledTableCell>
-            <StyledTableCell align="left">To</StyledTableCell>
-            <StyledTableCell align="left">Name</StyledTableCell>
-            <StyledTableCell align="left">Capacity</StyledTableCell>
+            {MakeRow({record: headers, classes})}
           </TableRow>
         </TableHead>
         <TableBody>
-          {buses.map((bus) => (
-            <StyledTableRow key={bus.plateNo}>
-              <StyledTableCell component="th" scope="row">
-                <Checkbox size="medium" className={classes.check}  style={{color: '#A2302F'}}/>
-                {bus.plateNo}
-              </StyledTableCell>
-              <StyledTableCell align="left">{bus.from}</StyledTableCell>
-              <StyledTableCell align="left">{bus.to}</StyledTableCell>
-              <StyledTableCell align="left">{bus.name}</StyledTableCell>
-              <StyledTableCell align="left">{bus.capacity}</StyledTableCell>
+          {tableBody.map((row, index) => (
+            <StyledTableRow>
+              {
+                MakeRow({record: Object.values(row), classes})
+              }
             </StyledTableRow>
           ))}
         </TableBody>

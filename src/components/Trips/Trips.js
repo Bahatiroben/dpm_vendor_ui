@@ -14,13 +14,12 @@ class Buses extends Component {
             {plateNo: 'RAB 234 Z', from: 'Kampala', to: 'Mukono', name: 'Roller coaster', capacity: 63},
             {plateNo: 'RAB 234 Z', from: 'Kampala', to: 'Mukono', name: 'Roller coaster', capacity: 63},
             {plateNo: 'RAB 234 Z', from: 'Kampala', to: 'Mukono', name: 'Roller coaster', capacity: 63},
-        ],
-        headers: ['PlateNo', 'From', 'To', 'Name', 'Capacity'] }
+        ] }
     }
     render() { 
         return ( 
         <Container maxWidth={false} >
-            <BusesTable tableBody={this.state.buses} headers={this.state.headers} />
+            <BusesTable buses={this.state.buses}/>
         </Container> );
     }
 }
