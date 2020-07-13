@@ -6,9 +6,13 @@ import { Button,
 import TopNav from '../shared/topNav/Topnav';
 import {PersonPin, Person, Lock} from '@material-ui/icons';
 import {useStyles} from './login.styles';
+import { login } from '../../redux/actions/login';
+import { connect } from 'react-redux';
   
 const LoginPage = (props) => {
     const classes = useStyles();
+    const { login } = props;
+
     return (
         <Container className={classes.authContainer} maxWidth={false}>
         <TopNav/>
@@ -25,12 +29,20 @@ const LoginPage = (props) => {
                 <Input type="password" className={classes.inputField} id="password-login"/>
             </FormControl>
         </div>
-            <Button className={classes.submitButton} size="medium" variant="contained" color="primary">Login</Button>
+            <Button onClick={() => login({username: 'bahati@test.com', password: 'Root1123#'})} className={classes.submitButton} size="medium" variant="contained" color="primary">Login</Button>
         </Grid>
     </Container>);
 }
+
+const mapStateToProps = (state) => {
+return state
+}
+
+const mapDispatchToProps = {
+    login
+}
  
 LoginPage.propTypes = {
-    n: PropTypes.func.isRequired
+    login: PropTypes.func.isRequired
 }
-export default LoginPage;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

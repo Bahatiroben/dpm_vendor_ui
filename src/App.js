@@ -10,7 +10,7 @@ import SignupPage from './components/signup/SignupPage'
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import AppTheme from './assets/styles/index';
 import {Dashboard} from './components/dashboard/DashboardPage';
-import { SideNav} from './components/shared/sideNav/SideNav'
+import { SideNav } from './components/shared/sideNav/SideNav'
 import Buses from './components/Buses/Buses';
 
 function App(props) {
