@@ -1,7 +1,7 @@
 
 import {makeStyles} from '@material-ui/core';
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = {
     root: {
       width: '100%',
       margin: '10px auto'
@@ -58,4 +58,4 @@ export const useStyles = makeStyles((theme) => ({
         position: 'relative', 
         top: '-4px' 
     }
-  }));
+  };
