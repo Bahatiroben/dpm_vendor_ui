@@ -8,6 +8,7 @@ import {PersonPin, Person, Lock} from '@material-ui/icons';
 import {useStyles} from './login.styles';
 import { login } from '../../redux/actions/login';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
 class LoginPage extends Component {
     constructor(props) {
@@ -28,6 +29,15 @@ class LoginPage extends Component {
         const {username, password} = this.state;
         const {login} = this.props;
         login({username, password});
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {data, error, history} = nextProps;
+        if(data) {
+            history.push('/');
+        } else {
+            toast.error(error.message);
+        }
     }
 
     render() { 
@@ -54,8 +64,8 @@ class LoginPage extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-return state
+const mapStateToProps = ({loginReducer}) => {
+    return loginReducer
 }
 
 const mapDispatchToProps = {
