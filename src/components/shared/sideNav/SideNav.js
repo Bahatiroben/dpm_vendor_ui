@@ -1,5 +1,5 @@
-import React from 'react';
-import {Paper, makeStyles, Grid, Typography, StepButton} from '@material-ui/core';
+import React, {useState} from 'react';
+import {Paper, makeStyles, Grid, Typography, StepButton, Link} from '@material-ui/core';
 import { PersonPin, Dashboard, DirectionsBus, DepartureBoard, CompareArrows, PlayArrow, Apps } from '@material-ui/icons';
 import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple'
 
@@ -8,11 +8,12 @@ const styles = makeStyles(theme => ({
     container: {
         width: '15%', 
         height: '100vh', 
-        background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%)',
+        background: 'linear-gradient(180deg, #FFFFFF 100%, rgba(255, 255, 255, 0) 100%)',
         // borderRadius: '0px 80px 0px 0px',
         display: 'inline-flex',
         justifyContent: 'center',
         position: 'fixed',
+        zIndex: 100
     },
     logo: {
         borderRadius: '50%',
@@ -34,29 +35,43 @@ const styles = makeStyles(theme => ({
 
 export const SideNav = (props) => {
     const classes = styles();
+    const [show, setShow] = useState(false);
+
+    const toggleNav = () => {
+        setShow(!show)
+    }
+
 return (
-    <Paper className={classes.container} elevation={1}>
+    <Paper style={show ? {left: '-15%', transition: 'left 0.5s'} : {left: '0px',  transition: 'left 0.5s'}} className={classes.container} elevation={1}>
         <StepButton style={{position: 'fixed', cursor: 'pointer', borderRadius: '50%', left: '0px', width: '60px', top: '10px', fontWeight: 'bold'}}>
-            <Apps style={{fontSize: '40px', color: '#A2302F'}}/>
+            <Apps onClick={toggleNav} style={{fontSize: '40px', color: '#A2302F'}}/>
         </StepButton>
         <Grid style={{width: '100%', position: 'relative', top: '50px'}}>
             <img className={classes.logo} alt="Bus operator logo" src='https://via.placeholder.com/150'/>
             <Grid style={{color: '#A2302F', fontSize: '20px', fontWeight: '500', marginTop: '50px'}}>
                 <Grid className={classes.record}>
-                    <Dashboard/>
-                    <span className={classes.label}>Dashboard</span>
+                    <Link href="/" >
+                        <Dashboard/>
+                        <span className={classes.label}>Dashboard</span>
+                    </Link>
                 </Grid>
                 <Grid className={classes.record}>
-                    <DirectionsBus/>
-                    <span className={classes.label}>Buses</span>
+                    <Link href="/buses">
+                        <DirectionsBus/>
+                        <span className={classes.label}>Buses</span>
+                    </Link>
                 </Grid>
                 <Grid className={classes.record}>
-                    <DepartureBoard/>
-                    <span className={classes.label}>Trips</span>
+                    <Link href="/trips">
+                        <DepartureBoard/>
+                        <span className={classes.label}>Trips</span>
+                    </Link>
                 </Grid>
                 <Grid className={classes.record}>
-                    <CompareArrows/>
-                    <span className={classes.label}>Routes</span>
+                    <Link href="/routes">
+                        <CompareArrows/>
+                        <span className={classes.label}>Routes</span>
+                    </Link>
                 </Grid>
             </Grid>
         </Grid>

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Container } from '@material-ui/core';
-import BusesTable from '../shared/busesTable/BusesTable';
+import SharedTable from '../shared/sharedTable/SharedTable';
 // import {} from '@material-ui/icons';
 
-class Buses extends Component {
+class Trips extends Component {
     constructor(props) {
         super(props);
-        this.state = { buses: [
+        this.state = { trips: [
             {plateNo: 'RAB 234 Z', from: 'Kampala', to: 'Mukono', name: 'Roller coaster', capacity: 63},
             {plateNo: 'RAB 234 Z', from: 'Kampala', to: 'Mukono', name: 'Roller coaster', capacity: 63},
             {plateNo: 'RAB 234 Z', from: 'Kampala', to: 'Mukono', name: 'Roller coaster', capacity: 63},
@@ -17,11 +17,12 @@ class Buses extends Component {
         ] }
     }
     render() { 
+        const headers = ['PlateNo', 'From', 'To', 'Name', 'Capacity'];
         return ( 
         <Container maxWidth={false} >
-            <BusesTable buses={this.state.buses}/>
+            <SharedTable tableBody={this.state.trips} headers={headers} buses={this.state.buses}/>
         </Container> );
     }
 }
  
-export default Buses;
+export default Trips;

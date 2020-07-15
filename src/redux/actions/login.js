@@ -6,7 +6,7 @@ export const login = ({username, password}) => async dispatch => {
         const data = await axios.post('/login', {username, password});
         return dispatch({
             type: LOGIN_SUCCESS,
-            payload: data
+            payload: data.data
         });
     } catch(error) {
         return dispatch({

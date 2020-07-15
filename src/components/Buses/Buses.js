@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from '@material-ui/core';
-import BusesTable from '../shared/busesTable/BusesTable';
+import BusesTable from '../shared/sharedTable/SharedTable';
 // import {} from '@material-ui/icons';
 
 class Buses extends Component {
@@ -19,7 +19,7 @@ class Buses extends Component {
     }
     render() { 
         return ( 
-        <Container maxWidth={false} >
+        <Container  maxWidth={false} >
             <BusesTable tableBody={this.state.buses} headers={this.state.headers} />
         </Container> );
     }

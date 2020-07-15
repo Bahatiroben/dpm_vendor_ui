@@ -34,6 +34,9 @@ class LoginPage extends Component {
     componentWillReceiveProps(nextProps) {
         const {data, error, history} = nextProps;
         if(data) {
+            toast.success(data.message);
+            localStorage.setItem('DPMAccessToken', data.access_token);
+            localStorage.setItem('DPMRefreshToken', data.refresh_token)
             history.push('/');
         } else {
             toast.error(error.message);

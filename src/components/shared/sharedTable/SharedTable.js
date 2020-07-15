@@ -26,14 +26,14 @@ const useStyles = makeStyles({
   },
   tableContainer: {
     width: '90%',
-    margin: 'auto',
+    margin: '5px auto auto 5%',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   }
 });
 
-export default function BusesTable(props) {
+export default function SharedTable(props) {
   const classes = useStyles();
   const {tableBody, headers} = props;
 

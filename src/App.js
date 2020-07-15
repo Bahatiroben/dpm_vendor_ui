@@ -7,12 +7,13 @@ import { Provider } from 'react-redux'
 import './App.css';
 import configureStore from './redux/store';
 import LoginPage from './components/login/LoginPage';
-import SignupPage from './components/signup/SignupPage'
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import AppTheme from './assets/styles/index';
 import {Dashboard} from './components/dashboard/DashboardPage';
 import { SideNav } from './components/shared/sideNav/SideNav'
 import Buses from './components/Buses/Buses';
+import Trips from './components/Trips/Trips'
+import { WithAuth } from './components/withAuth/WithAuth'
 
 function App(props) {
   return (
@@ -21,12 +22,12 @@ function App(props) {
         <ToastContainer />
       <div className="App">
         <Router>
-          {/*<SideNav/> */}
+          <Route component={WithAuth(SideNav)}/>
           <Switch>
-          <Route exact path="/" component={Dashboard} />
-          <Route exact path="/register" component={SignupPage} />
+          <Route exact path="/" component={WithAuth(Dashboard)}/>
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/buses" component={Buses} />
+          <Route exact path="/buses" component={WithAuth(Buses)} />
+          <Route exact path="/trips" component={WithAuth(Trips)} />
           <Redirect to="/404" />
           </Switch>
         </Router>
