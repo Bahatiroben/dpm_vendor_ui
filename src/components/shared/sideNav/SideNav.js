@@ -35,14 +35,14 @@ const styles = makeStyles(theme => ({
 
 export const SideNav = (props) => {
     const classes = styles();
-    const [show, setShow] = useState(false);
+    const [hidden, setHide] = useState(true);
 
     const toggleNav = () => {
-        setShow(!show)
+        setHide(!hidden)
     }
 
 return (
-    <Paper style={show ? {left: '-15%', transition: 'left 0.5s'} : {left: '0px',  transition: 'left 0.5s'}} className={classes.container} elevation={1}>
+    <Paper style={hidden ? {left: '-15%', transition: 'left 0.5s'} : {left: '0px',  transition: 'left 0.5s'}} className={classes.container} elevation={1}>
         <StepButton style={{position: 'fixed', cursor: 'pointer', borderRadius: '50%', left: '0px', width: '60px', top: '10px', fontWeight: 'bold'}}>
             <Apps onClick={toggleNav} style={{fontSize: '40px', color: '#A2302F'}}/>
         </StepButton>

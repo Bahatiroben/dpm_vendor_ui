@@ -59,7 +59,7 @@ export default function SharedTable(props) {
           {tableBody.map((row, index) => (
             <StyledTableRow>
               {
-                MakeRow({record: Object.values(row), classes})
+                MakeRow({record: headers, classes, content: row})
               }
             </StyledTableRow>
           ))}

@@ -14,6 +14,7 @@ import { SideNav } from './components/shared/sideNav/SideNav'
 import Buses from './components/Buses/Buses';
 import Trips from './components/Trips/Trips'
 import { WithAuth } from './components/withAuth/WithAuth'
+import Routes from './components/routes/RoutesPage';
 
 function App(props) {
   return (
@@ -28,6 +29,7 @@ function App(props) {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/buses" component={WithAuth(Buses)} />
           <Route exact path="/trips" component={WithAuth(Trips)} />
+          <Route exact path="/routes" component={WithAuth(Routes)} />
           <Redirect to="/404" />
           </Switch>
         </Router>
