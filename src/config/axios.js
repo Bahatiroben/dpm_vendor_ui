@@ -5,7 +5,7 @@ dotenv.config();
 
 const axiosInstance = axios;
 
-const ACCESS_TOKEN = localStorage.getItem('DPMAcessTokenv0.1');
+const ACCESS_TOKEN = localStorage.getItem('DPMAccessToken');
 const baseURL = process.env.REACT_APP_baseURL;
 axiosInstance.defaults.baseURL = baseURL;
 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${ACCESS_TOKEN}`;

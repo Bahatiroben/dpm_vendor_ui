@@ -15,6 +15,7 @@ import Buses from './components/Buses/Buses';
 import Trips from './components/Trips/Trips'
 import { WithAuth } from './components/withAuth/WithAuth'
 import Routes from './components/routes/RoutesPage';
+import SingleRoute from './components/singleRoute/SingleRoute';
 
 function App(props) {
   return (
@@ -30,6 +31,7 @@ function App(props) {
           <Route exact path="/buses" component={WithAuth(Buses)} />
           <Route exact path="/trips" component={WithAuth(Trips)} />
           <Route exact path="/routes" component={WithAuth(Routes)} />
+          <Route exact path="/routes/:id" component={WithAuth(SingleRoute)} />
           <Redirect to="/404" />
           </Switch>
         </Router>
