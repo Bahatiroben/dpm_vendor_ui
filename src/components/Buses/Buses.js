@@ -10,7 +10,7 @@ class Buses extends Component {
     constructor(props) {
         super(props);
         this.state = { buses: [],
-        headers: [{label: 'PlateNo', key: 'plate'}, {label: 'Capacity', key: 'capacity'}, {label: 'Trips', key: 'trips'}]}
+        headers: [{label: 'PlateNo', key: 'number_plate'}, {label: 'Capacity', key: 'capacity'}, {label: 'Trips', key: 'trips'}]}
     }
 
     componentDidMount() {

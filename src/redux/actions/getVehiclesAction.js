@@ -9,7 +9,6 @@ export const getVehicles = () => async dispatch => {
             payload: data.data
         });
     } catch(error) {
-        console.log("api error==>", error);
         return dispatch({
             type: GET_VEHICLES_ERROR,
             payload: error

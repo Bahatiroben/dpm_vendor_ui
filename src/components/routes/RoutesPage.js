@@ -1,22 +1,36 @@
 import React, { Component } from 'react';
 import { Container } from '@material-ui/core';
 import SharedTable from '../shared/sharedTable/SharedTable';
+import { getRoutes } from '../../redux/actions/getRoutesAction';
+import { connect } from 'react-redux';
+import {toast} from 'react-toastify';
 // import {} from '@material-ui/icons';
 
 class Routes extends Component {
     constructor(props) {
         super(props);
-        this.state = { routes: [
-            {"destination": "Mbale", "route_code": "Kla-Mbale", "start_point": "Kampala"},
-            {"destination": "Mbale", "route_code": "Kla-Mbale", "start_point": "Kampala"},
-            {"destination": "Mbale", "route_code": "Kla-Mbale", "start_point": "Kampala"},
-            {"destination": "Mbale", "route_code": "Kla-Mbale", "start_point": "Kampala"},
-            {"destination": "Mbale", "route_code": "Kla-Mbale", "start_point": "Kampala"}
-        ],
+        this.state = { routes: [],
         headers: [{label: 'Route Code', key: 'route_code'}, 
         {label: 'From', key: 'start_point'}, 
         {label: 'To', key: 'destination'}] }
     }
+
+    componentDidMount() {
+        const { getRoutes } = this.props;
+        getRoutes();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(">>>>>>>>>>", nextProps)
+        const {routes: {data, error}} = nextProps;
+
+        if(error) {
+            toast.error(error.message);
+        } else {
+            this.setState({routes: data});
+        }
+    }
+
     render() { 
         return ( 
         <Container  maxWidth={false} >
@@ -24,5 +38,13 @@ class Routes extends Component {
         </Container> );
     }
 }
+
+const mapStateToProps = ({routes}) => {
+    return {routes}
+}
+
+const mapDispatchToProps = {
+    getRoutes
+}
  
-export default Routes;
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);
