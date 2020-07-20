@@ -32,10 +32,28 @@ class Buses extends Component {
         }
     }
 
+    handleCheck = ({target}) =>{
+        const {checked, id} = target;
+        const {buses} = this.state;
+        const checkedBuses = buses.map(bus => {
+            if(id === 'header') {
+                bus.checked = checked;
+            }
+            if(bus.id == id) {
+                bus.checked = checked
+            }
+            return bus;
+        });
+
+        this.setState({buses: checkedBuses});
+    }
+
     render() { 
+        const {headers, buses} = this.state;
+        const allChecked = buses.every(bus => bus.checked == true);
         return ( 
         <Container  maxWidth={false} >
-            <BusesTable tableBody={this.state.buses} headers={this.state.headers} />
+            <BusesTable handleCheck={this.handleCheck} tableBody={buses} headers={headers} allChecked={allChecked}/>
         </Container> );
     }
 }

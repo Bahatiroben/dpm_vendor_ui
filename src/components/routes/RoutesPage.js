@@ -31,10 +31,28 @@ class Routes extends Component {
         }
     }
 
+    handleCheck = ({target}) =>{
+        const {checked, id} = target;
+        const {routes} = this.state;
+        const checkedRoutes = routes.map(route => {
+            if(id === 'header') {
+                route.checked = checked;
+            }
+            if(route.id == id) {
+                route.checked = checked
+            }
+            return route;
+        });
+
+        this.setState({routes: checkedRoutes});
+    }
+// <SharedTable handleCheck={this.handleCheck} tableBody={trips} headers={headers} allChecked={allChecked}/>
     render() { 
+        const {headers, routes} = this.state;
+        const allChecked = routes.every(route => route.checked == true);
         return ( 
         <Container  maxWidth={false} >
-            <SharedTable tableBody={this.state.routes} headers={this.state.headers} />
+            <SharedTable handleCheck={this.handleCheck} tableBody={routes} headers={headers} allChecked={allChecked}/>
         </Container> );
     }
 }
