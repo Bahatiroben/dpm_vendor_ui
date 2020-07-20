@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Grid, Input } from '@material-ui/core';
-import {Edit, Delete, Add, Search} from '@material-ui/icons';
+import {Table, TableBody, TableContainer, TableHead, TableRow, Paper, Grid, Input } from '@material-ui/core';
+import {Edit, Delete, Add} from '@material-ui/icons';
 import { MakeRow } from '../tableRow/TableRow'
 
 const StyledTableRow = withStyles((theme) => ({
@@ -35,8 +35,7 @@ const useStyles = makeStyles({
 
 export default function SharedTable(props) {
   const classes = useStyles();
-  const {tableBody, headers} = props;
-
+  const {tableBody, headers, handleCheck, allChecked} = props;
   return (
       <>
     <Grid className={classes.tableContainer}>
@@ -52,14 +51,14 @@ export default function SharedTable(props) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            {MakeRow({record: headers, classes})}
+            {MakeRow({record: headers, classes, header: true, allChecked, handleCheck})}
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableBody.map((row, index) => (
+          {tableBody.map((row) => (
             <StyledTableRow>
               {
-                MakeRow({record: headers, classes, content: row})
+                MakeRow({record: headers, classes, content: row, handleCheck, allChecked})
               }
             </StyledTableRow>
           ))}

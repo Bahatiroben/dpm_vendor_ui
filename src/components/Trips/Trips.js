@@ -9,7 +9,16 @@ import { toast } from 'react-toastify';
 class Trips extends Component {
     constructor(props) {
         super(props);
-        this.state = { trips:[]}
+        this.state = { 
+            trips:[],
+            headers: [
+                {label: 'Vehicle', key: 'number_plate'}, 
+                {label: 'From', key: 'start_point'},
+                {label: 'To', key: 'destination'}, 
+                {label: 'Fare', key: 'tp_fare'},
+                {label: 'Travel Date', key: 'date'},
+                {label: 'Time', key: 'time'}]
+        }
     }
 
     componentDidMount() {
@@ -25,18 +34,29 @@ class Trips extends Component {
            this.setState({trips: data}); 
         }
     }
+
+    handleCheck = ({target}) =>{
+        const {checked, id} = target;
+        const {trips} = this.state;
+        const checkedTrips = trips.map(trip => {
+            if(id === 'header') {
+                trip.checked = checked;
+            }
+            if(trip.id == id) {
+                trip.checked = checked
+            }
+            return trip;
+        });
+
+        this.setState({trips: checkedTrips});
+    }
     
     render() { 
-        const headers = [
-         {label: 'Vehicle', key: 'number_plate'}, 
-         {label: 'From', key: 'start_point'},
-         {label: 'To', key: 'destination'}, 
-         {label: 'Fare', key: 'tp_fare'},
-         {label: 'Travel Date', key: 'date'},
-         {label: 'Time', key: 'time'}];
+        const {headers, trips} = this.state;
+        const allChecked = trips.every(trip => trip.checked == true);
         return ( 
         <Container maxWidth={false} >
-            <SharedTable tableBody={this.state.trips} headers={headers} buses={this.state.buses}/>
+            <SharedTable handleCheck={this.handleCheck} tableBody={trips} headers={headers} allChecked={allChecked}/>
         </Container> );
     }
 }
