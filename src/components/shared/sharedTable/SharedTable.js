@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import {Table, TableBody, TableContainer, TableHead, TableRow, Paper, Grid, Input } from '@material-ui/core';
+import {Table, TableBody, TableContainer, TableHead, TableRow, Paper, Grid, Input, StepButton} from '@material-ui/core';
 import {Edit, Delete, Add} from '@material-ui/icons';
 import { MakeRow } from '../tableRow/TableRow'
 
@@ -42,9 +42,16 @@ export default function SharedTable(props) {
         <Input placeholder="Search Bus" disableUnderline style={{padding: '0px 20px', width: '30%', backgroundColor: '#FFFFFF', border: '1px solid #A2302F', borderRadius: '50px'}}/>
         
         <Grid>
-            <Edit style={{padding: '5px 0px 5px 30px'}}/>
-            <Delete style={{padding: '5px 0px 5px 30px'}}/>
-            <Add style={{padding: '5px 5px 5px 30px', fontWeight: 'bold'}}/>
+          <StepButton style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
+            <Edit/>
+          </StepButton>
+          <StepButton style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
+            <Delete />
+          </StepButton>
+          <StepButton style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
+            <Add/>
+          </StepButton>
+
         </Grid>
     </Grid>
     <TableContainer className={classes.tableContainer} component={Paper}>

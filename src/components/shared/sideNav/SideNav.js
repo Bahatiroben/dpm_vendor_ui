@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {Paper, makeStyles, Grid, Typography, StepButton, Link} from '@material-ui/core';
-import { PersonPin, Dashboard, DirectionsBus, DepartureBoard, CompareArrows, PlayArrow, Apps } from '@material-ui/icons';
-import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple'
+import {Paper, makeStyles, Grid, StepButton, Link} from '@material-ui/core';
+import { Dashboard, DirectionsBus, DepartureBoard, CompareArrows, Apps } from '@material-ui/icons';
 
 
 const styles = makeStyles(theme => ({
