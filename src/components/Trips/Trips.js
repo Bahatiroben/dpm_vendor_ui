@@ -4,12 +4,14 @@ import SharedTable from '../shared/sharedTable/SharedTable';
 import { getTrips} from '../../redux/actions/getTripsAction';
 import {connect} from 'react-redux';
 import { toast } from 'react-toastify';
+import AddTrip from './AddTrip';
 // import {} from '@material-ui/icons';
 
 class Trips extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+            showAdd: false,
             trips:[],
             headers: [
                 {label: 'Vehicle', key: 'number_plate'}, 
@@ -51,12 +53,18 @@ class Trips extends Component {
         this.setState({trips: checkedTrips});
     }
     
+    toggleAdd = () => {
+        const {showAdd} = this.state;
+        this.setState({showAdd: !showAdd})
+    }
+
     render() { 
-        const {headers, trips} = this.state;
+        const {headers, trips, showAdd} = this.state;
         const allChecked = trips.every(trip => trip.checked == true);
         return ( 
         <Container maxWidth={false} >
-            <SharedTable handleCheck={this.handleCheck} tableBody={trips} headers={headers} allChecked={allChecked}/>
+            {showAdd ? <AddTrip toggleAdd={this.toggleAdd}/> : ''}
+            <SharedTable toggleAdd={this.toggleAdd} handleCheck={this.handleCheck} tableBody={trips} headers={headers} allChecked={allChecked}/>
         </Container> );
     }
 }

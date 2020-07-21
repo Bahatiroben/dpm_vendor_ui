@@ -4,12 +4,13 @@ import BusesTable from '../shared/sharedTable/SharedTable';
 import {getVehicles} from '../../redux/actions/getVehiclesAction';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import AddBus from './AddBus';
 // import {} from '@material-ui/icons';
 
 class Buses extends Component {
     constructor(props) {
         super(props);
-        this.state = { buses: [],
+        this.state = { buses: [], showAdd: false,
         headers: [{label: 'PlateNo', key: 'number_plate'}, {label: 'Capacity', key: 'capacity'}, {label: 'Trips', key: 'trips'}]}
     }
 
@@ -48,12 +49,18 @@ class Buses extends Component {
         this.setState({buses: checkedBuses});
     }
 
+    toggleAdd = () => {
+        const {showAdd} = this.state;
+        this.setState({showAdd: !showAdd})
+    }
+
     render() { 
-        const {headers, buses} = this.state;
+        const {headers, buses, showAdd} = this.state;
         const allChecked = buses.every(bus => bus.checked == true);
-        return ( 
+        return (
         <Container  maxWidth={false} >
-            <BusesTable handleCheck={this.handleCheck} tableBody={buses} headers={headers} allChecked={allChecked}/>
+            {showAdd ? <AddBus toggleAdd={this.toggleAdd} /> : ''}
+            <BusesTable toggleAdd={this.toggleAdd} handleCheck={this.handleCheck} tableBody={buses} headers={headers} allChecked={allChecked}/>
         </Container> );
     }
 }

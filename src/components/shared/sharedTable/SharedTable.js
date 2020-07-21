@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 
 export default function SharedTable(props) {
   const classes = useStyles();
-  const {tableBody, headers, handleCheck, allChecked} = props;
+  const {tableBody, headers, handleCheck, allChecked, toggleAdd} = props;
   return (
       <>
     <Grid className={classes.tableContainer}>
@@ -48,7 +48,7 @@ export default function SharedTable(props) {
           <StepButton style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
             <Delete />
           </StepButton>
-          <StepButton style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
+          <StepButton onClick={toggleAdd} style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
             <Add/>
           </StepButton>
 
