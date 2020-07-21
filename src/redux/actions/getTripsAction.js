@@ -22,6 +22,8 @@ export const getTrips = () => async dispatch => {
         errors = await renewSession(error);
         data = await getData('/trips');
     } finally {
+        console.log(">>>errors: ", errors);
+        console.log('data: ', data);
         if(errors) {
             dispatch({
                 type: GET_TRIPS_ERROR,

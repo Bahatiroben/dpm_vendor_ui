@@ -5,12 +5,13 @@ import {getVehicles} from '../../redux/actions/getVehiclesAction';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import AddBus from './AddBus';
+import { addVehicle } from '../../redux/actions/addVehicleAction'
 // import {} from '@material-ui/icons';
 
 class Buses extends Component {
     constructor(props) {
         super(props);
-        this.state = { buses: [], showAdd: false,
+        this.state = { buses: [], newVehicle: {}, showAdd: false,
         headers: [{label: 'PlateNo', key: 'number_plate'}, {label: 'Capacity', key: 'capacity'}, {label: 'Trips', key: 'trips'}]}
     }
 
@@ -20,16 +21,28 @@ class Buses extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {vehicles: {data, error}} = nextProps;
-        if(error) {
-            console.log({...error})
-            toast.error(error.message)
-        } else {
-            const mappedData = data.map(entry => {
-                entry.trips = entry.trips.length;
-                return entry
-            })
-            this.setState({buses: mappedData})
+        const {vehicles, createdVehicle} = nextProps;
+        if(vehicles) {
+            const {data, error} = vehicles;
+            if(error) {
+                console.log({...error})
+                toast.error(error.message)
+            } else {
+                const mappedData = data.map(entry => {
+                    entry.trips = entry.trips.length;
+                    return entry
+                })
+                this.setState({buses: mappedData})
+            }
+        } else if(createdVehicle) {
+            const {data, error} = createdVehicle;
+            if(error) {
+                console.log({...error})
+                toast.error(error.message)
+            } else {
+                console.log("data created: ", data);
+                this.toggleAdd();
+            } 
         }
     }
 
@@ -54,23 +67,36 @@ class Buses extends Component {
         this.setState({showAdd: !showAdd})
     }
 
+    handleChange = ({target}) => {
+        const {name, value} = target
+        const {newVehicle} = this.state;
+        this.setState({newVehicle: {...newVehicle, [name]: value}});
+    }
+
+    handleSubmit = () => {
+        const { newVehicle } = this.state;
+        const { addVehicle } = this.props;
+        addVehicle(newVehicle);
+    };
+
     render() { 
-        const {headers, buses, showAdd} = this.state;
+        const {headers, buses, showAdd, newVehicle: {capacity, number_plate}} = this.state;
         const allChecked = buses.every(bus => bus.checked == true);
         return (
         <Container  maxWidth={false} >
-            {showAdd ? <AddBus toggleAdd={this.toggleAdd} /> : ''}
+            {showAdd ? <AddBus handleSubmit={this.handleSubmit} number_plate={number_plate} capacity={capacity} handleChange={this.handleChange}  toggleAdd={this.toggleAdd} /> : ''}
             <BusesTable toggleAdd={this.toggleAdd} handleCheck={this.handleCheck} tableBody={buses} headers={headers} allChecked={allChecked}/>
         </Container> );
     }
 }
 
-const mapStateToProps = ({vehicles}) => {
-    return {vehicles}
+const mapStateToProps = ({vehicles, createdVehicle}) => {
+    return {vehicles, createdVehicle}
 };
 
 const mapDispatchToprops = {
-    getVehicles
+    getVehicles,
+    addVehicle
 };
  
 export default connect(mapStateToProps, mapDispatchToprops)(Buses);

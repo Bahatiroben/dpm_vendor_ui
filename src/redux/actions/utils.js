@@ -18,3 +18,7 @@ export const renewSession = async (error) => {
 }
 
 export const getData = (url) => axios.get(`/v1.0${url}`);
+
+export const createData = (url, payload) => {
+    return axios.post(`/v1.0${url}`, payload);
+}

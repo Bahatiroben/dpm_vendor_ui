@@ -6,3 +6,5 @@ export const GET_ROUTES_SUCCESS = Symbol('GET_ROUTES_SUCCESS');
 export const GET_ROUTES_ERROR = Symbol('GET_ROUTES_ERROR');
 export const GET_TRIPS_SUCCESS = Symbol('GET_TRIPS_SUCCESS');
 export const GET_TRIPS_ERROR = Symbol('GET_TRIPS_ERROR');
+export const ADD_VEHICLE_SUCCESS = Symbol('ADD_VEHICLE_SUCCESS');
+export const ADD_VEHICLE_ERROR = Symbol('ADD_VEHICLE_ERROR');
