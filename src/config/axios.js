@@ -3,12 +3,16 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const axiosInstance = axios;
+class Api {
+    static axiosInstance = axios;
+    static ACCESS_TOKEN = localStorage.getItem('DPMAccessToken');
+    static initiate() {
+        const baseURL = process.env.REACT_APP_baseURL;
+        Api.axiosInstance.defaults.baseURL = baseURL;
+        Api.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${Api.ACCESS_TOKEN}`;
+        Api.axiosInstance.defaults.headers.post['Content-Type'] = 'application/json';
+        return Api.axiosInstance.create();
+    }
+}
 
-const ACCESS_TOKEN = localStorage.getItem('DPMAccessToken');
-const baseURL = process.env.REACT_APP_baseURL;
-axiosInstance.defaults.baseURL = baseURL;
-axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${ACCESS_TOKEN}`;
-axiosInstance.defaults.headers.post['Content-Type'] = 'application/json';
-
-export default axiosInstance.create();
+export default Api;

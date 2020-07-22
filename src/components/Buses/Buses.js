@@ -22,27 +22,26 @@ class Buses extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {vehicles, createdVehicle} = nextProps;
-        if(vehicles) {
-            const {data, error} = vehicles;
-            if(error) {
-                console.log({...error})
-                toast.error(error.message)
+        if(createdVehicle.data || vehicles.data) {
+            if(createdVehicle.data) {
+                this.toggleAdd();
+                window.location.reload();
             } else {
+                const {data} = vehicles;
                 const mappedData = data.map(entry => {
                     entry.trips = entry.trips.length;
                     return entry
                 })
                 this.setState({buses: mappedData})
             }
-        } else if(createdVehicle) {
-            const {data, error} = createdVehicle;
-            if(error) {
-                console.log({...error})
-                toast.error(error.message)
+        } else {
+            let error;
+            if(createdVehicle.error) {
+                error = createdVehicle.error
             } else {
-                console.log("data created: ", data);
-                this.toggleAdd();
-            } 
+                error = vehicles.error;
+            }
+            toast.error(error.message)
         }
     }
 

@@ -14,22 +14,18 @@ const processData = (dispatch, data) => {
 }
 
 export const getTrips = () => async dispatch => {
-    let errors = null;
-    let data = null;
     try {
-        data = await getData('/trips');
+        const data = await getData('/trips');
+        return processData(dispatch, data.data);
     } catch(error) {
-        errors = await renewSession(error);
-        data = await getData('/trips');
-    } finally {
-        console.log(">>>errors: ", errors);
-        console.log('data: ', data);
-        if(errors) {
-            dispatch({
+        const result = await renewSession(error);
+        if(result.status !== 200) {
+            return dispatch({
                 type: GET_TRIPS_ERROR,
-                payload: errors
+                payload: error
             });
         } else {
+            const data = await getData('/trips');
             return processData(dispatch, data.data);
         }
     }

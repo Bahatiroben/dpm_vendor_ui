@@ -1,21 +1,22 @@
-import { GET_VEHICLES_SUCCESS, GET_VEHICLES_ERROR} from './actionTypes';
+import { GET_VEHICLES_SUCCESS, GET_VEHICLES_ERROR, ADD_VEHICLE_SUCCESS} from './actionTypes';
 import {renewSession, getData} from './utils'
 
 export const getVehicles = () => async dispatch => {
-    let data = null;
-    let errors = null;
     try{
-        data = await getData('/vehicles');
+        const data = await getData('/vehicles');
+        return dispatch({
+            type: GET_VEHICLES_SUCCESS,
+            payload: data.data
+        });
     } catch(error) {
-        errors = await renewSession(error);
-        data = await getData('/vehicles');
-    } finally {
-        if(errors) {
+        const result = await renewSession(error);
+        if(result.status !== 200) {
             return dispatch({
                 type: GET_VEHICLES_ERROR,
-                payload: errors
+                payload: error
             });
         } else {
+            const data = await getData('/vehicles');
             return dispatch({
                 type: GET_VEHICLES_SUCCESS,
                 payload: data.data
