@@ -9,7 +9,6 @@ export const addVehicle = (vehicle) => async dispatch => {
             payload: data.data
         });
     } catch(error) {
-        console.log(">>>>>>>>> REACHING ERROR", error)
         const result = await renewSession(error);
         if(result.status !== 200) {
              dispatch({

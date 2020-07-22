@@ -8,3 +8,5 @@ export const GET_TRIPS_SUCCESS = Symbol('GET_TRIPS_SUCCESS');
 export const GET_TRIPS_ERROR = Symbol('GET_TRIPS_ERROR');
 export const ADD_VEHICLE_SUCCESS = Symbol('ADD_VEHICLE_SUCCESS');
 export const ADD_VEHICLE_ERROR = Symbol('ADD_VEHICLE_ERROR');
+export const ADD_TRIP_SUCCESS = Symbol('ADD_ROUTE_SUCCESS');
+export const ADD_TRIP_ERROR = Symbol('ADD_TRIP_ERROR');
