@@ -5,6 +5,8 @@ import { getTrips} from '../../redux/actions/getTripsAction';
 import {connect} from 'react-redux';
 import { toast } from 'react-toastify';
 import AddTrip from './AddTrip';
+import moment from 'moment';
+import { addTrip } from '../../redux/actions/addTripAction';
 // import {} from '@material-ui/icons';
 
 class Trips extends Component {
@@ -12,6 +14,7 @@ class Trips extends Component {
         super(props);
         this.state = { 
             showAdd: false,
+            showUpdate: false,
             trips:[],
             headers: [
                 {label: 'Vehicle', key: 'number_plate'}, 
@@ -58,12 +61,31 @@ class Trips extends Component {
         this.setState({showAdd: !showAdd})
     }
 
+    handleChange = ({target}) => {
+        const {name, value} = target;
+        this.setState({[name]: value});
+    }
+
+    handleSubmit = async () => {
+        const {setoff_time, tp_fare, route_id, vehicle_id} = this.state;
+        const dateTime = moment(setoff_time, 'YYYY-MM-DDTHH:mm').format('DD/MM/YYYY HH:mm:ss')
+        const result = await addTrip({setoff_time: dateTime, tp_fare, route_id, vehicle_id});
+        if(result === true) {
+            this.toggleAdd();
+        }
+    }
+
     render() { 
-        const {headers, trips, showAdd} = this.state;
+        const {headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time } = this.state;
         const allChecked = trips.every(trip => trip.checked == true);
         return ( 
         <Container maxWidth={false} >
-            {showAdd ? <AddTrip toggleAdd={this.toggleAdd}/> : ''}
+            {showAdd ? <AddTrip
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit} 
+            route_id={route_id} vehicle_id={vehicle_id}
+             tp_fare={tp_fare} setoff_time={setoff_time} 
+            toggleAdd={this.toggleAdd}/> : ''}
             <SharedTable toggleAdd={this.toggleAdd} handleCheck={this.handleCheck} tableBody={trips} headers={headers} allChecked={allChecked}/>
         </Container> );
     }

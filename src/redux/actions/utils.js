@@ -27,3 +27,8 @@ export const createData = (url, payload) => {
     const axios = Api.initiate();
     return axios.post(`/v1.0${url}`, payload);
 }
+
+export const updateData = (url, payload) => {
+    const axios = Api.initiate();
+    return axios.put(`/v1.0${url}`, payload);
+}

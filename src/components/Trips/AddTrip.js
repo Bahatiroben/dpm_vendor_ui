@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Paper, Grid, Input, Button, FormControl, MenuItem, InputLabel, Select } from '@material-ui/core';
+import { Paper, Grid, Input, Button, FormControl, MenuItem, InputLabel, Select, ClickAwayListener } from '@material-ui/core';
 import {connect} from 'react-redux';
 import { getVehicles } from '../../redux/actions/getVehiclesAction';
 import { getRoutes } from '../../redux/actions/getRoutesAction';
-import { addTrip } from '../../redux/actions/addTripAction'
-import moment from 'moment';
 
 class AddTrip extends Component {
     constructor(props) {
@@ -27,22 +25,9 @@ class AddTrip extends Component {
 
     }
 
-    handleChange = ({target}) => {
-        const {name, value} = target;
-        this.setState({[name]: value});
-    }
-
-    handleSubmit = async () => {
-        const {setoff_time, tp_fare, route_id, vehicle_id} = this.state;
-        const dateTime = moment(setoff_time, 'YYYY-MM-DDTHH:mm').format('DD/MM/YYYY HH:mm:ss')
-        const result = await addTrip({setoff_time: dateTime, tp_fare, route_id, vehicle_id});
-        if(result === true) {
-            this.props.toggleAdd();
-        }
-    }
-
     render() {
-        const {vehicles, routes, route_id, vehicle_id, tp_fare, setoff_time} = this.state; 
+        const {vehicles, routes} = this.state; 
+        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit } = this.props;
         return ( <Paper style={{width: '100vw', 
         height: '100vh', padding: '0px', outline: '0px',
         position: 'absolute', margin: '0px',
@@ -59,7 +44,7 @@ class AddTrip extends Component {
                 <FormControl style={{width: '45%'}}>
                     <InputLabel id="route-select-label">Route</InputLabel>
                     <Select
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                     labelId="route-select-label"
                     id="route-select-label"
                     value={route_id}
@@ -70,7 +55,7 @@ class AddTrip extends Component {
                 </FormControl>
                 <FormControl style={{width: '45%'}}>
                     <InputLabel  htmlFor="tp-fare">Fare (UGX)</InputLabel>
-                    <Input name="tp_fare" value={tp_fare} onChange={this.handleChange} type="number"  id="tp-fare"/>
+                    <Input name="tp_fare" value={tp_fare} onChange={handleChange} type="number"  id="tp-fare"/>
                 </FormControl>
                 </Grid>
                 <Grid style={{ 
@@ -83,7 +68,7 @@ class AddTrip extends Component {
                 <FormControl style={{width: '45%'}}>
                     <InputLabel id="vehicle-select-label">Vehicle</InputLabel>
                     <Select
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                     labelId="vehicle-select-label"
                     id="vehicle-select-label"
                     value={vehicle_id}
@@ -96,7 +81,7 @@ class AddTrip extends Component {
                     <InputLabel  id="time-select-label">SetOff Time</InputLabel>
                     <Input
                         id="time-select-label"
-                        onChange={this.handleChange}
+                        onChange={handleChange}
                         name="setoff_time"
                         label="Setoff Time"
                         type="datetime-local"
@@ -104,13 +89,26 @@ class AddTrip extends Component {
                     />
                 </FormControl>     
                 </Grid>
-                <Button onClick={this.handleSubmit} 
+                <Grid style={{ 
+                    width: '90%', padding: '10px 5px',
+                                display: 'flex', 
+                                margin: 'auto', justifyContent: 'space-between'}}>
+                <Button onClick={toggleAdd}
                         style={{padding: '5px 35px', 
                                 display: 'block', 
-                                margin: 'auto auto 20px auto'}} 
+                                margin: '0px'}} 
+                        size="medium" 
+                        variant="contained" 
+                        color="secondary">Cancel</Button>
+
+                <Button onClick={handleSubmit} 
+                        style={{padding: '5px 35px', 
+                                display: 'block', 
+                                margin: '0px'}} 
                         size="medium" 
                         variant="contained" 
                         color="primary">Submit</Button>
+                </Grid>
             </Grid>
         </Paper> );
     }

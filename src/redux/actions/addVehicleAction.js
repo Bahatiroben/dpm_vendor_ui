@@ -1,28 +1,39 @@
-import { ADD_VEHICLE_ERROR, ADD_VEHICLE_SUCCESS} from './actionTypes';
-import {renewSession, createData} from './utils'
+import {renewSession, createData, updateData} from './utils'
+import {toast} from 'react-toastify'
 
-export const addVehicle = (vehicle) => async dispatch => {
+export const addVehicle = async (vehicle) => {
     try{
         const data = await createData('/vehicle/create', vehicle);
-        return dispatch({
-            type: ADD_VEHICLE_SUCCESS,
-            payload: data.data
-        });
+        toast(data.data.message);
+        return true
     } catch(error) {
         const result = await renewSession(error);
         if(result.status !== 200) {
-             dispatch({
-                type: ADD_VEHICLE_ERROR,
-                payload: error
-            });
+            toast.error(result.message);
+            return false
         } else {
-
             const data = await createData('/vehicle/create', vehicle);
-            return dispatch({
-                type: ADD_VEHICLE_SUCCESS,
-                payload: data.data
-            });
+            toast(data.data.message);
+            return true
         }
     }
-   }
+}
+
+export const updateVehicle = async (vehicle) => {
+    try{
+        const data = await updateData('/vehicle/create', vehicle);
+        toast(data.data.message);
+        return true
+    } catch(error) {
+        const result = await renewSession(error);
+        if(result.status !== 200) {
+            toast.error(result.message);
+            return false
+        } else {
+            const data = await updateData('/vehicle/create', vehicle);
+            toast(data.data.message);
+            return true
+        }
+    }
+}
    

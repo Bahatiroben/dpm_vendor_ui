@@ -9,7 +9,6 @@ export const addTrip = async (trip) => {
     } catch(error) {
         const result = await renewSession(error);
         if(result.status !== 200) {
-            console.log("an error occue", {...error});
             toast.error(result.message);
             return false
         } else {

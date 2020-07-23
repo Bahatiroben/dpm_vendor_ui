@@ -4,7 +4,6 @@ import SharedTable from '../shared/sharedTable/SharedTable';
 import { getRoutes } from '../../redux/actions/getRoutesAction';
 import { connect } from 'react-redux';
 import {toast} from 'react-toastify';
-import AddRoute from './AddRoute';
 // import {} from '@material-ui/icons';
 
 class Routes extends Component {
@@ -22,7 +21,6 @@ class Routes extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(">>>>>>>>>>", nextProps)
         const {routes: {data, error}} = nextProps;
 
         if(error) {
@@ -47,17 +45,13 @@ class Routes extends Component {
 
         this.setState({routes: checkedRoutes});
     }
-    toggleAdd = () => {
-        const {showAdd} = this.state;
-        this.setState({showAdd: !showAdd})
-    }
+
     render() { 
-        const {headers, routes, showAdd} = this.state;
+        const {headers, routes} = this.state;
         const allChecked = routes.every(route => route.checked == true);
         return ( 
         <Container  maxWidth={false}>
-            {showAdd ? <AddRoute toggleAdd={this.toggleAdd} /> : ''}
-            <SharedTable toggleAdd={this.toggleAdd} handleCheck={this.handleCheck} tableBody={routes} headers={headers} allChecked={allChecked}/>
+            <SharedTable hideDock={true} handleCheck={this.handleCheck} tableBody={routes} headers={headers} allChecked={allChecked}/>
         </Container> );
     }
 }

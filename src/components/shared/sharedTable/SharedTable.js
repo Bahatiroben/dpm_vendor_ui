@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import {Table, TableBody, TableContainer, TableHead, TableRow, Paper, Grid, Input, StepButton} from '@material-ui/core';
-import {Edit, Delete, Add} from '@material-ui/icons';
+import {Edit, Add} from '@material-ui/icons';
 import { MakeRow } from '../tableRow/TableRow'
 
 const StyledTableRow = withStyles((theme) => ({
@@ -35,24 +35,20 @@ const useStyles = makeStyles({
 
 export default function SharedTable(props) {
   const classes = useStyles();
-  const {tableBody, headers, handleCheck, allChecked, toggleAdd} = props;
+  const {tableBody, headers, handleCheck, allChecked, toggleAdd, hideDock, toggleUpdate} = props;
   return (
       <>
     <Grid className={classes.tableContainer}>
         <Input placeholder="Search Bus" disableUnderline style={{padding: '0px 20px', width: '30%', backgroundColor: '#FFFFFF', border: '1px solid #A2302F', borderRadius: '50px'}}/>
         
-        <Grid>
-          <StepButton style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
+        {!hideDock && <Grid>
+          <StepButton onClick={toggleUpdate} style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
             <Edit/>
-          </StepButton>
-          <StepButton style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
-            <Delete />
           </StepButton>
           <StepButton onClick={toggleAdd} style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
             <Add/>
           </StepButton>
-
-        </Grid>
+        </Grid>}
     </Grid>
     <TableContainer className={classes.tableContainer} component={Paper}>
       <Table className={classes.table} aria-label="customized table">
