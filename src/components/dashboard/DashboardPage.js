@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { SideNav } from '../shared/sideNav/SideNav';
 import { Paper, Button, Container, Typography, makeStyles, Grid } from '@material-ui/core';
 import { TrendingUp, Alarm } from '@material-ui/icons';
 import { RouteCard } from '../shared/routeCard/RouteCard';
-import {TripCard} from '../shared/tripCard/TripCard';
+import { TripCard} from '../shared/tripCard/TripCard';
+import { getTrips } from '../../redux/actions/getTripsAction';
+import { getRoutes } from '../../redux/actions/getRoutesAction';
+import {connect} from 'react-redux';
 
 export const useStyles = makeStyles((theme) => ({
     container: {
@@ -20,8 +23,16 @@ export const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export const Dashboard = (props) => {
+const Dashboard = (props) => {
     const classes=useStyles();
+    const [allTrips, setTrips]=useState([]);
+    const [allRoutes, setRoutes]=useState([]);
+
+    useEffect(() => {
+        const {getRoutes, getTrips} = props;
+        getRoutes();
+        getTrips();
+    }, [props.trips, props.routes]);
     return (
         <Container maxWidth={false} className={classes.container}>
             <Grid style={{color: '#A2302F', fontFamily: 'Roboto', fontStyle: 'normal', fontWeight: 'normal', fontSize: '48px', lineHeight: '56px', textAlign: 'center' }}>Dashboard</Grid>
@@ -43,3 +54,14 @@ export const Dashboard = (props) => {
             </Container>
         </Container>)
 };
+
+const mapStateToProps = ({trips, routes}) => {
+    return {trips, routes}
+};
+
+const mapDispatchToProps = {
+    getRoutes,
+    getTrips
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
