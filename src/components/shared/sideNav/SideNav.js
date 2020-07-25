@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Paper, makeStyles, Grid, StepButton, Link} from '@material-ui/core';
 import { Dashboard, DirectionsBus, DepartureBoard, CompareArrows, Apps } from '@material-ui/icons';
+import SideIconsMenu from './SideIconsMenu';
 
 
 const styles = makeStyles(theme => ({
@@ -41,11 +42,14 @@ export const SideNav = (props) => {
     }
 
 return (
-    <Paper style={hidden ? {left: '-15%', transition: 'left 0.5s'} : {left: '0px',  transition: 'left 0.5s'}} className={classes.container} elevation={1}>
-        <StepButton style={{position: 'fixed', cursor: 'pointer', borderRadius: '50%', left: '0px', width: '60px', top: '10px', fontWeight: 'bold'}}>
+    <Paper style={hidden ? {left: '-18%', transition: 'left 0.5s'} : {left: '0px',  transition: 'left 0.5s'}} className={classes.container} elevation={1}>
+        <StepButton style={{position: 'fixed', cursor: 'pointer', borderRadius: '50%', left: '0px', width: '60px', top: '10px', fontWeight: 'bold', background: 'linear-gradient(180deg, #FFFFFF 100%, rgba(255, 255, 255, 0) 100%)'}}>
             <Apps onClick={toggleNav} style={{fontSize: '40px', color: '#A2302F'}}/>
         </StepButton>
-        <Grid style={{width: '100%', position: 'relative', top: '50px'}}>
+        {
+            hidden ? <SideIconsMenu/> : ''
+        }
+        <Grid style={{width: '100%', position: 'relative', top: '50px', display: hidden ? 'none': 'block'}}>
             <img className={classes.logo} alt="Bus operator logo" src='https://via.placeholder.com/150'/>
             <Grid style={{color: '#A2302F', fontSize: '20px', fontWeight: '500', marginTop: '50px'}}>
                 <Grid className={classes.record}>

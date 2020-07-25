@@ -23,11 +23,7 @@ class Buses extends Component {
     componentWillReceiveProps(nextProps) {
         const {vehicles: {error, data}} = nextProps;
         if(data) {
-            const mappedData = data.map(entry => {
-                entry.trips = entry.trips.length;
-                return entry
-            })
-            this.setState({buses: mappedData})
+            this.setState({buses: data})
         } else {
             toast.error(error.message)
         }

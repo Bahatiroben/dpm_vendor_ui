@@ -4,12 +4,12 @@ import { DirectionsBus, MoreVert } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '292px',
+        width: '280px',
         height: '170px',
         background: '#EEEEEE',
         boxShadow: '4px 5px 6px rgba(162, 48, 47, 0.06)',
         borderRadius: '5px',
-        margin: '20px 20px'
+        margin: '20px 10px'
     },
     destination: {
         fontFamily: 'Roboto',
@@ -37,13 +37,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const RouteCard = (props) => {
+    const {route} = props;
     const classes = useStyles();
 
     return(
     <Paper className={classes.root}>
 
         <Grid>
-        <Typography className={classes.source}>Kampala</Typography>
+    <Typography className={classes.source}>{route.start_point}</Typography>
         <Grid style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'cnter'}}>
             <Grid style={{color: '#A09D96'}}>
                 <MoreVert style={{display: 'block', fontSize: '47px', height: '47px'}}/>
@@ -51,10 +52,10 @@ export const RouteCard = (props) => {
             </Grid>
             <Grid className={classes.busTrips}>
                 <DirectionsBus style={{fontSize: '35px', padding: '0px 10px'}}/>
-                <Typography style={{fontSize: '25px'}}>345 Trips</Typography>
+                <Typography style={{fontSize: '25px'}}>{route.trips === 0 ? 'No' : route.trips} Trips</Typography>
             </Grid>
         </Grid>
-        <Typography className={classes.destination}>Mukono</Typography>
+    <Typography className={classes.destination}>{route.destination}</Typography>
         </Grid>
     </Paper>
 )}

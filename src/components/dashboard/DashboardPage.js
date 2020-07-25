@@ -7,6 +7,7 @@ import { TripCard} from '../shared/tripCard/TripCard';
 import { getTrips } from '../../redux/actions/getTripsAction';
 import { getRoutes } from '../../redux/actions/getRoutesAction';
 import {connect} from 'react-redux';
+import { toast } from 'react-toastify';
 
 export const useStyles = makeStyles((theme) => ({
     container: {
@@ -15,7 +16,7 @@ export const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: '100',
-        padding: '0px 0px 0px 13%'
+        padding: '0px 0px 0px 5%'
     },
     title: {
         display: 'inline-flex',
@@ -25,14 +26,38 @@ export const useStyles = makeStyles((theme) => ({
 
 const Dashboard = (props) => {
     const classes=useStyles();
-    const [allTrips, setTrips]=useState([]);
-    const [allRoutes, setRoutes]=useState([]);
+    const [trips, setTrips]=useState([]);
+    const [routes, setRoutes]=useState([]);
 
     useEffect(() => {
         const {getRoutes, getTrips} = props;
         getRoutes();
         getTrips();
-    }, [props.trips, props.routes]);
+    }, []);
+
+    useEffect(() => {
+        const {trips, routes} = props;
+        if(trips.error || routes.error) {
+            if(trips.error) {
+                toast.error(trips.error.message);
+            }
+
+            if(routes.error) {
+                toast.error(routes.error.message);
+            }
+        };
+
+        if(trips.data || routes.data) {
+            if(routes.data) {
+                setRoutes(routes.data);
+            }
+
+            if(trips.data) {
+                setTrips(trips.data);
+            }
+        }
+    }, [props.routes, props.trips]);
+
     return (
         <Container maxWidth={false} className={classes.container}>
             <Grid style={{color: '#A2302F', fontFamily: 'Roboto', fontStyle: 'normal', fontWeight: 'normal', fontSize: '48px', lineHeight: '56px', textAlign: 'center' }}>Dashboard</Grid>
@@ -41,16 +66,18 @@ const Dashboard = (props) => {
                 <Typography style={{fontSize: '25px'}}>Trending Routes</Typography>
             </Grid>
             <Container maxWidth={false} style={{display: 'flex', flexWrap: 'wrap'}}>
-                <RouteCard/><RouteCard/><RouteCard/><RouteCard/><RouteCard/>
-                <RouteCard/><RouteCard/><RouteCard/><RouteCard/><RouteCard/>
+                {
+                    routes.map(route => <RouteCard route={route}/>)
+                }
             </Container>
             <Grid className={classes.title}>
                 <Alarm style={{padding: '0 5px', fontSize: '35px'}}/>
                 <Typography style={{fontSize: '25px'}}>Upcoming Trips</Typography>
             </Grid>
             <Container maxWidth={false} style={{display: 'flex', flexWrap: 'wrap'}}>
-                <TripCard/><TripCard/><TripCard/><TripCard/><TripCard/>
-                <TripCard/><TripCard/><TripCard/><TripCard/><TripCard/>
+                {
+                    trips.map(trip => <TripCard trip={trip}/>)
+                }
             </Container>
         </Container>)
 };

@@ -1,4 +1,4 @@
-import { GET_VEHICLES_SUCCESS, GET_VEHICLES_ERROR, ADD_VEHICLE_SUCCESS} from './actionTypes';
+import { GET_VEHICLES_SUCCESS, GET_VEHICLES_ERROR } from './actionTypes';
 import {renewSession, getData} from './utils'
 
 export const getVehicles = () => async dispatch => {
