@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import AddTrip from './AddTrip';
 import moment from 'moment';
 import { addTrip, updateTrip } from '../../redux/actions/addTripAction';
+import {validate} from './validateTrip';
 // import {} from '@material-ui/icons';
 
 class Trips extends Component {
@@ -16,6 +17,8 @@ class Trips extends Component {
             showAdd: false,
             showUpdate: false,
             trips:[],
+            submitDisabled: true,
+            addError: '',
             headers: [
                 {label: 'Vehicle', key: 'number_plate'}, 
                 {label: 'From', key: 'start_point'},
@@ -67,21 +70,27 @@ class Trips extends Component {
         this.setState({showUpdate: !showUpdate})
     }
 
-    handleChange = ({target}) => {
+    handleChange = async ({target}) => {
         const {name, value} = target;
-        this.setState({[name]: value});
+        const { setoff_time, tp_fare, route_id, vehicle_id } = this.state;
+        const error = await validate({setoff_time, tp_fare, route_id, vehicle_id, [name]: value});
+        this.setState({[name]: value, submitDisabled: error !== undefined ? true : false, addError: error});
     }
 
-    handleUpdateChange = ({target}) => {
+    handleUpdateChange = async ({target}) => {
         const {trips} = this.state;
         const {name, value} = target;
-        const updatedtrips = trips.map(trip => {
-            if(trip.checked === true) {
-                trip[name] = value
+        let tripIndex;
+        const updatedtrips = trips.map((trip, index) => {
+            const updatedTrip = {...trip}
+            if(updatedTrip.checked === true) {
+                updatedTrip[name] = value;
+                tripIndex = index;
             } 
-            return trip;
+            return updatedTrip;
         });
-        this.setState({trips: updatedtrips})
+        const error = await validate({...updatedtrips[tripIndex], [name]: value});
+        this.setState({trips: updatedtrips, submitDisabled: error !== undefined ? true : false, updateError: error})
     }
 
     handleSubmit = async () => {
@@ -117,7 +126,7 @@ class Trips extends Component {
     }
 
     render() { 
-        const {headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time, showUpdate } = this.state;
+        const {headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time, showUpdate, addError, updateError, submitDisabled } = this.state;
         const allChecked = trips.every(trip => trip.checked === true);
         const checkedTrips = trips.filter(trip => trip.checked === true);
         let {tp_fare: tpFare, setoff_time: setoffTime, vehicle_id: vehicleId, route_id: routeId} = checkedTrips[0] ? checkedTrips[0] : [{}];
@@ -125,6 +134,8 @@ class Trips extends Component {
         return ( 
         <Container maxWidth={false} >
             {showAdd ? <AddTrip
+            submitDisabled={submitDisabled}
+            error={addError}
             title="Add new Trip"
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit} 
@@ -133,6 +144,8 @@ class Trips extends Component {
             toggleAdd={this.toggleAdd}/> : ''}
 
         {showUpdate && oneChecked ? <AddTrip
+        submitDisabled={submitDisabled}
+            error={updateError}
             title="Update Trip"
             route_id={routeId} vehicle_id={vehicleId}
             tp_fare={tpFare} setoff_time={setoffTime} 

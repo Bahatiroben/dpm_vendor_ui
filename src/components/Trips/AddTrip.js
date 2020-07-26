@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Paper, Grid, Input, Button, FormControl, MenuItem, InputLabel, Select } from '@material-ui/core';
+import { Paper, Grid, Input, Button, FormControl, MenuItem, InputLabel, Select, Tooltip, TextField } from '@material-ui/core';
 import {connect} from 'react-redux';
 import { getVehicles } from '../../redux/actions/getVehiclesAction';
 import { getRoutes } from '../../redux/actions/getRoutesAction';
@@ -34,7 +34,7 @@ const AddTrip  =  (props) => {
         }
     }, [props.routes]);
 
-        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit, title } = props;
+        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit, title, error, submitDisabled } = props;
         return ( <Paper style={{width: '100vw', 
         height: '100vh', padding: '0px', outline: '0px',
         position: 'absolute', margin: '0px',
@@ -42,7 +42,9 @@ const AddTrip  =  (props) => {
         right: '0px', zIndex: '100',
         }}>
             <Grid style={{ padding: '5px 0px', borderRadius: '5px', width: '40%', background: '#F6F8FA', margin : '10% auto 0px auto'}}>
-            <Grid style={{color: '#A2302F', margin: '30px auto 0px auto', textAlign: 'center', fontFamily: 'verdana', fontSize: '20px'}}>{title}</Grid>
+                <Tooltip title={error} open={error&&true}>
+                    <Grid style={{color: '#A2302F', margin: '30px auto 0px auto', textAlign: 'center', fontFamily: 'verdana', fontSize: '20px'}}>{title}</Grid>
+                </Tooltip>
                 <Grid style={{ 
                                 width: '90%', 
                                 padding: '25px 30px',
@@ -63,7 +65,7 @@ const AddTrip  =  (props) => {
                 </FormControl>
                 <FormControl style={{width: '45%'}}>
                     <InputLabel  htmlFor="tp-fare">Fare (UGX)</InputLabel>
-                    <Input name="tp_fare" value={tp_fare} onChange={handleChange} type="number"  id="tp-fare"/>
+                    <Input name="tp_fare" value={tp_fare} onChange={handleChange} InputProps={{ inputProps: { min: 1 } }} type="number"  id="tp-fare"/>
                 </FormControl>
                 </Grid>
                 <Grid style={{ 
@@ -110,6 +112,7 @@ const AddTrip  =  (props) => {
                         color="secondary">Cancel</Button>
 
                 <Button onClick={handleSubmit} 
+                        disabled={submitDisabled}
                         style={{padding: '5px 35px', 
                                 display: 'block', 
                                 margin: '0px'}} 

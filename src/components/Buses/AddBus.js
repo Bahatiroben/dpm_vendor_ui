@@ -24,7 +24,7 @@ class AddBus extends Component {
                                 display: 'flex', 
                                 margin: 'auto', justifyContent: 'space-between'}}>
                     <TextField onChange={handleChange} value={number_plate} name="number_plate" style={{color: '#A2302F'}} placeholder='Number plate'/>
-                    <TextField onChange={handleChange} value={capacity} name="capacity" InputProps={{ inputProps: { min: 1 } }} style={{color: '#A2302F'}} min={1} type='number' placeholder='Capacity'/>
+                    <TextField onChange={handleChange} value={capacity} name="capacity" InputProps={{ inputProps: { min: 1 } }} style={{color: '#A2302F'}} type='number' placeholder='Capacity'/>
                 </Grid>
                 <Grid style={{ 
                     width: '80%', padding: '10px 5px',
