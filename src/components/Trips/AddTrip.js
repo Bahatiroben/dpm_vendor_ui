@@ -1,33 +1,40 @@
-import React, { Component } from 'react';
-import { Paper, Grid, Input, Button, FormControl, MenuItem, InputLabel, Select, ClickAwayListener } from '@material-ui/core';
+import React, { Component, useState, useEffect } from 'react';
+import { Paper, Grid, Input, Button, FormControl, MenuItem, InputLabel, Select } from '@material-ui/core';
 import {connect} from 'react-redux';
 import { getVehicles } from '../../redux/actions/getVehiclesAction';
 import { getRoutes } from '../../redux/actions/getRoutesAction';
+import { toast } from 'react-toastify'
 
-class AddTrip extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { }
-    }
+const AddTrip  =  (props) => {
 
-    componentDidMount() {
-        const {getRoutes, getVehicles} = this.props;
-        getRoutes();
-        getVehicles();
-    }
+    const [vehicles, setVehicles] = useState([]);
+    const [routes, setRoutes] = useState([]);
+    
+    useEffect(() => {
+        const {getRoutes, getVehicles} = props;
+            getVehicles();
+            getRoutes();
+    }, []);
 
-    componentWillReceiveProps(nextProps) {
-        // find a way to add only unassigned vehicles. maybe reach out to Eric.
-        const {vehicles, routes} = nextProps;
-        if(vehicles.data && routes.data) {
-            this.setState({vehicles: vehicles.data, routes: routes.data});
+    useEffect(() => {
+        const {vehicles: {data, error}} = props;
+        if(data) {
+            setVehicles(data);
+        }else if(error) {
+            toast.error(error.message); 
         }
+    }, [props.vehicles]);
+    
+    useEffect(() => {
+        const {routes: {data, error}} = props;
+        if(data) {
+            setRoutes(data);
+        }else if(error) {
+            toast.error(error.message); 
+        }
+    }, [props.routes]);
 
-    }
-
-    render() {
-        const {vehicles, routes} = this.state; 
-        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit } = this.props;
+        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit } = props;
         return ( <Paper style={{width: '100vw', 
         height: '100vh', padding: '0px', outline: '0px',
         position: 'absolute', margin: '0px',
@@ -111,11 +118,10 @@ class AddTrip extends Component {
                 </Grid>
             </Grid>
         </Paper> );
-    }
 }
 
 const mapStateToProps = ({routes, vehicles}) => {
-    return {routes, vehicles}
+    return {vehicles, routes}
 }
 
 const mapDispatchToProps = {

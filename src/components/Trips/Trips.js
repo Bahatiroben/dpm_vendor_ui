@@ -35,15 +35,15 @@ class Trips extends Component {
         const {trips: {data, error}} = nextProps;
         if(error) {
             toast.error(error.message)
-        } else {
+        } else if(data) {
            this.setState({trips: data}); 
         }
     }
 
     handleCheck = ({target}) =>{
         const {checked, id} = target;
-        const {trips} = this.state;
-        const checkedTrips = trips.map(trip => {
+        const {trips: stateTrips} = this.state;
+        const checkedTrips = stateTrips.map(trip => {
             if(id === 'header') {
                 trip.checked = checked;
             }
@@ -52,7 +52,6 @@ class Trips extends Component {
             }
             return trip;
         });
-
         this.setState({trips: checkedTrips});
     }
     
@@ -116,9 +115,10 @@ class Trips extends Component {
 
     render() { 
         const {headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time, showUpdate } = this.state;
-        const allChecked = trips.every(trip => trip.checked == true);
+        const allChecked = trips.every(trip => trip.checked === true);
         const checkedTrips = trips.filter(trip => trip.checked === true);
-        const {route_id: routeId, vehicle_id: vehicleId, tp_fare: tpFare, setoff_time: setoffTime} = checkedTrips[0] ? checkedTrips[0] : [{}];
+        let {id: tripId, tp_fare: tpFare, setoff_time: setoffTime, vehicle_id: vehicleId, route_id: routeId} = checkedTrips[0] ? checkedTrips[0] : [{}];
+        tpFare = tpFare && tpFare.replace(/\D+/, '');
         const oneChecked = checkedTrips.length === 1;
         return ( 
         <Container maxWidth={false} >
