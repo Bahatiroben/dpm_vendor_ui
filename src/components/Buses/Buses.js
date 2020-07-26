@@ -6,12 +6,13 @@ import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import AddBus from './AddBus';
 import { addVehicle, updateVehicle } from '../../redux/actions/addVehicleAction'
+import { createVehiclePayloadValidator} from './validator';
 // import {} from '@material-ui/icons';
 
 class Buses extends Component {
     constructor(props) {
         super(props);
-        this.state = { buses: [], newVehicle: {}, showAdd: false, showUpdate: false,
+        this.state = { buses: [], newVehicle: {}, showAdd: false, showUpdate: false, submitDisabled: true, addError: '', updateError: '',
         headers: [{label: 'PlateNo', key: 'number_plate'}, {label: 'Capacity', key: 'capacity'}, {label: 'Trips', key: 'trips'}]}
     }
 
@@ -33,13 +34,14 @@ class Buses extends Component {
         const {checked, id} = target;
         const {buses} = this.state;
         const checkedBuses = buses.map(bus => {
+            const checkedBus = {...bus};
             if(id === 'header') {
-                bus.checked = checked;
+                checkedBus.checked = checked;
             }
-            if(bus.id == id) {
-                bus.checked = checked
+            if(checkedBus.id == id) {
+                checkedBus.checked = checked
             }
-            return bus;
+            return checkedBus;
         });
 
         this.setState({buses: checkedBuses});
@@ -55,21 +57,27 @@ class Buses extends Component {
         this.setState({showUpdate: !showUpdate})
     }
 
-    handleChange = ({target}) => {
+    handleChange = async ({target}) => {
         const {name, value} = target
-        this.setState({[name]: value});
+        const {number_plate, capacity} = this.state;
+        const error = await createVehiclePayloadValidator({number_plate, capacity, [name]: value});
+        this.setState({[name]: value, submitDisabled: error !== undefined ? true : false, addError: error});
     }
 
-    handleUpdateChange = ({target}) => {
+    handleUpdateChange = async ({target}) => {
         const {buses} = this.state;
         const {name, value} = target;
-        const updatedvehicles = buses.map(bus => {
-            if(bus.checked === true) {
-                bus[name] = value
+        let busIndex;
+        const updatedvehicles = buses.map((bus, index) => {
+            const updatedBus = {...bus};
+            if(updatedBus.checked === true) {
+                busIndex = index
+                updatedBus[name] = value
             } 
-            return bus;
+            return updatedBus;
         });
-        this.setState({buses: updatedvehicles})
+        const error = await createVehiclePayloadValidator({number_plate: updatedvehicles[busIndex].number_plate, capacity: updatedvehicles[busIndex].capacity, [name]: value});
+        this.setState({buses: updatedvehicles, submitDisabled: error !== undefined ? true : false, updateError: error})
     }
 
     handleSubmit = async () => {
@@ -92,15 +100,15 @@ class Buses extends Component {
     }
 
     render() { 
-        const {headers, buses, showAdd, showUpdate, number_plate, capacity} = this.state;
+        const {headers, buses, showAdd, showUpdate, number_plate, capacity, submitDisabled, addError, updateError} = this.state;
         const allChecked = buses.every(bus => bus.checked === true);
         const checkedBuses = buses.filter(bus => bus.checked === true);
         const {capacity: busCapacity, number_plate: numberPlate} = checkedBuses[0] ? checkedBuses[0] : [{}]
         const oneChecked = checkedBuses.length === 1;
         return (
         <Container  maxWidth={false} >
-            {showAdd ? <AddBus title="Add New Bus" number_plate={number_plate} capacity={capacity} handleChange={this.handleChange} handleSubmit={this.handleSubmit} toggleAdd={this.toggleAdd} /> : ''}
-            {showUpdate && oneChecked ? <AddBus number_plate={numberPlate} capacity={busCapacity}  handleChange={this.handleUpdateChange} handleSubmit={this.handleSubmitUpdate} toggleAdd={this.toggleUpdate} /> : ''}
+            {showAdd ? <AddBus error={addError} submitDisabled={submitDisabled} title="Add New Vehicle" number_plate={number_plate} capacity={capacity} handleChange={this.handleChange} handleSubmit={this.handleSubmit} toggleAdd={this.toggleAdd} /> : ''}
+            {showUpdate && oneChecked ? <AddBus error={updateError} title="Update Vehicle" number_plate={numberPlate} capacity={busCapacity}  handleChange={this.handleUpdateChange} handleSubmit={this.handleSubmitUpdate} toggleAdd={this.toggleUpdate} /> : ''}
             <BusesTable toggleUpdate={oneChecked && this.toggleUpdate} toggleAdd={this.toggleAdd} handleCheck={this.handleCheck} tableBody={buses} headers={headers} allChecked={allChecked}/>
         </Container> );
     }

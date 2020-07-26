@@ -20,7 +20,7 @@ class Trips extends Component {
                 {label: 'Vehicle', key: 'number_plate'}, 
                 {label: 'From', key: 'start_point'},
                 {label: 'To', key: 'destination'}, 
-                {label: 'Fare', key: 'tp_fare'},
+                {label: 'Fare (UGX)', key: 'tp_fare'},
                 {label: 'Travel Date', key: 'date'},
                 {label: 'Time', key: 'time'}]
         }
@@ -43,14 +43,16 @@ class Trips extends Component {
     handleCheck = ({target}) =>{
         const {checked, id} = target;
         const {trips: stateTrips} = this.state;
-        const checkedTrips = stateTrips.map(trip => {
+        const checkedTrips = []
+        stateTrips.forEach(trip => {
+            const newTrip = {...trip};
             if(id === 'header') {
-                trip.checked = checked;
+                newTrip.checked = checked;
             }
-            if(trip.id == id) {
-                trip.checked = checked
+            if(newTrip.id == id) {
+                newTrip.checked = checked
             }
-            return trip;
+            checkedTrips.push(newTrip);
         });
         this.setState({trips: checkedTrips});
     }
@@ -100,10 +102,11 @@ class Trips extends Component {
             tp_fare,
             route_id,
             vehicle_id
-            } = trip[0];
+        } = trip[0];
+        const dateTime = moment(setoff_time, 'YYYY-MM-DDTHH:mm').format('DD/MM/YYYY HH:mm:ss')
         const result = await updateTrip({
             id,
-            setoff_time,
+            setoff_time: dateTime,
             tp_fare,
             route_id,
             vehicle_id });
@@ -117,12 +120,12 @@ class Trips extends Component {
         const {headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time, showUpdate } = this.state;
         const allChecked = trips.every(trip => trip.checked === true);
         const checkedTrips = trips.filter(trip => trip.checked === true);
-        let {id: tripId, tp_fare: tpFare, setoff_time: setoffTime, vehicle_id: vehicleId, route_id: routeId} = checkedTrips[0] ? checkedTrips[0] : [{}];
-        tpFare = tpFare && tpFare.replace(/\D+/, '');
+        let {tp_fare: tpFare, setoff_time: setoffTime, vehicle_id: vehicleId, route_id: routeId} = checkedTrips[0] ? checkedTrips[0] : [{}];
         const oneChecked = checkedTrips.length === 1;
         return ( 
         <Container maxWidth={false} >
             {showAdd ? <AddTrip
+            title="Add new Trip"
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit} 
             route_id={route_id} vehicle_id={vehicle_id}
@@ -130,6 +133,7 @@ class Trips extends Component {
             toggleAdd={this.toggleAdd}/> : ''}
 
         {showUpdate && oneChecked ? <AddTrip
+            title="Update Trip"
             route_id={routeId} vehicle_id={vehicleId}
             tp_fare={tpFare} setoff_time={setoffTime} 
             handleChange={this.handleUpdateChange} 

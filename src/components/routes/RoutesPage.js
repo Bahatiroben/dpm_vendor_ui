@@ -34,13 +34,14 @@ class Routes extends Component {
         const {checked, id} = target;
         const {routes} = this.state;
         const checkedRoutes = routes.map(route => {
+            const checkedRoute = {...route};
             if(id === 'header') {
-                route.checked = checked;
+                checkedRoute.checked = checked;
             }
             if(route.id == id) {
-                route.checked = checked
+                checkedRoute.checked = checked
             }
-            return route;
+            return checkedRoute;
         });
 
         this.setState({routes: checkedRoutes});

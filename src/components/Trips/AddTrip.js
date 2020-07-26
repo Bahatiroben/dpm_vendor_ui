@@ -34,7 +34,7 @@ const AddTrip  =  (props) => {
         }
     }, [props.routes]);
 
-        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit } = props;
+        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit, title } = props;
         return ( <Paper style={{width: '100vw', 
         height: '100vh', padding: '0px', outline: '0px',
         position: 'absolute', margin: '0px',
@@ -42,6 +42,7 @@ const AddTrip  =  (props) => {
         right: '0px', zIndex: '100',
         }}>
             <Grid style={{ padding: '5px 0px', borderRadius: '5px', width: '40%', background: '#F6F8FA', margin : '10% auto 0px auto'}}>
+            <Grid style={{color: '#A2302F', margin: '30px auto 0px auto', textAlign: 'center', fontFamily: 'verdana', fontSize: '20px'}}>{title}</Grid>
                 <Grid style={{ 
                                 width: '90%', 
                                 padding: '25px 30px',
