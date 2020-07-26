@@ -28,7 +28,7 @@ function App(props) {
           <Switch>
           <Route exact path="/" component={WithAuth(Dashboard)}/>
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/buses" component={WithAuth(Buses)} />
+          <Route exact path="/vehicles" component={WithAuth(Buses)} />
           <Route exact path="/trips" component={WithAuth(Trips)} />
           <Route exact path="/routes" component={WithAuth(Routes)} />
           <Route exact path="/routes/:id" component={WithAuth(SingleRoute)} />

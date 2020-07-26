@@ -1,6 +1,6 @@
 import React from 'react';
-import {Paper, makeStyles, Grid, StepButton, Link} from '@material-ui/core';
-import { Dashboard, DirectionsBus, DepartureBoard, CompareArrows, Apps } from '@material-ui/icons';
+import {makeStyles, Grid, Link, Tooltip} from '@material-ui/core';
+import { Dashboard, DirectionsBus, DepartureBoard, CompareArrows } from '@material-ui/icons';
 
 const styles = makeStyles(theme => ({
 
@@ -19,22 +19,30 @@ const SideIconsMenu = () => {
     <Grid style={{background: 'linear-gradient(180deg, #FFFFFF 100%, rgba(255, 255, 255, 0) 100%)', top: '0px', height: '100vh', borderRadius: '5px', position: 'fixed', left: '0px', color: '#A2302F', fontSize: '20px', fontWeight: '500', marginTop: '50px'}}>
         <Grid className={classes.record}>
             <Link href="/" >
-                <Dashboard/>
+                <Tooltip title="Dashboard">
+                    <Dashboard/>
+                </Tooltip>
             </Link>
         </Grid>
         <Grid className={classes.record}>
-            <Link href="/buses">
-                <DirectionsBus/>
+            <Link href="/vehicles">
+                <Tooltip title="Vehicles">
+                    <DirectionsBus/>
+                </Tooltip>
             </Link>
         </Grid>
         <Grid className={classes.record}>
             <Link href="/trips">
+            <Tooltip title="Trips">
                 <DepartureBoard/>
+            </Tooltip>
             </Link>
         </Grid>
         <Grid className={classes.record}>
             <Link href="/routes">
-                <CompareArrows/>
+                <Tooltip title="Routes">
+                    <CompareArrows/>
+                </Tooltip>
             </Link>
         </Grid>
     </Grid>)

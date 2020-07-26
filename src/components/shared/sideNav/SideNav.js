@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Paper, makeStyles, Grid, StepButton, Link} from '@material-ui/core';
+import {Paper, makeStyles, Grid, StepButton, Link, Tooltip} from '@material-ui/core';
 import { Dashboard, DirectionsBus, DepartureBoard, CompareArrows, Apps } from '@material-ui/icons';
 import SideIconsMenu from './SideIconsMenu';
 
@@ -44,7 +44,9 @@ export const SideNav = (props) => {
 return (
     <Paper style={hidden ? {left: '-18%', transition: 'left 0.5s'} : {left: '0px',  transition: 'left 0.5s'}} className={classes.container} elevation={1}>
         <StepButton style={{position: 'fixed', cursor: 'pointer', borderRadius: '50%', left: '0px', width: '60px', top: '10px', fontWeight: 'bold', background: 'linear-gradient(180deg, #FFFFFF 100%, rgba(255, 255, 255, 0) 100%)'}}>
-            <Apps onClick={toggleNav} style={{fontSize: '40px', color: '#A2302F'}}/>
+            <Tooltip title="Menu">
+                <Apps onClick={toggleNav} style={{fontSize: '40px', color: '#A2302F'}}/>
+            </Tooltip>
         </StepButton>
         {
             hidden ? <SideIconsMenu/> : ''
@@ -59,7 +61,7 @@ return (
                     </Link>
                 </Grid>
                 <Grid className={classes.record}>
-                    <Link href="/buses">
+                    <Link href="/vehicles">
                         <DirectionsBus/>
                         <span className={classes.label}>Buses</span>
                     </Link>

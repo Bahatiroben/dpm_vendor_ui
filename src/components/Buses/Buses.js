@@ -95,11 +95,11 @@ class Buses extends Component {
         const {headers, buses, showAdd, showUpdate, number_plate, capacity} = this.state;
         const allChecked = buses.every(bus => bus.checked === true);
         const checkedBuses = buses.filter(bus => bus.checked === true);
-        const {capacity: busCapacity, number_plate: numberPlate} = checkedBuses[0] ? checkedBuses[0] : []
+        const {capacity: busCapacity, number_plate: numberPlate} = checkedBuses[0] ? checkedBuses[0] : [{}]
         const oneChecked = checkedBuses.length === 1;
         return (
         <Container  maxWidth={false} >
-            {showAdd ? <AddBus  number_plate={number_plate} capacity={capacity} handleChange={this.handleChange} handleSubmit={this.handleSubmit} toggleAdd={this.toggleAdd} /> : ''}
+            {showAdd ? <AddBus title="Add New Bus" number_plate={number_plate} capacity={capacity} handleChange={this.handleChange} handleSubmit={this.handleSubmit} toggleAdd={this.toggleAdd} /> : ''}
             {showUpdate && oneChecked ? <AddBus number_plate={numberPlate} capacity={busCapacity}  handleChange={this.handleUpdateChange} handleSubmit={this.handleSubmitUpdate} toggleAdd={this.toggleUpdate} /> : ''}
             <BusesTable toggleUpdate={oneChecked && this.toggleUpdate} toggleAdd={this.toggleAdd} handleCheck={this.handleCheck} tableBody={buses} headers={headers} allChecked={allChecked}/>
         </Container> );

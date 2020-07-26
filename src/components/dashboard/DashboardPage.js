@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: '100',
-        padding: '0px 0px 0px 5%'
+        padding: '50px 0px 0px 7%'
     },
     title: {
         display: 'inline-flex',
@@ -49,18 +49,18 @@ const Dashboard = (props) => {
 
         if(trips.data || routes.data) {
             if(routes.data) {
-                setRoutes(routes.data);
+                setRoutes(routes.data.filter((route, index) => index < 8));
             }
 
             if(trips.data) {
-                setTrips(trips.data);
+                setTrips(trips.data.filter((trip, index) => index < 8));
             }
         }
     }, [props.routes, props.trips]);
 
     return (
         <Container maxWidth={false} className={classes.container}>
-            <Grid style={{color: '#A2302F', fontFamily: 'Roboto', fontStyle: 'normal', fontWeight: 'normal', fontSize: '48px', lineHeight: '56px', textAlign: 'center' }}>Dashboard</Grid>
+            <Grid style={{color: '#A2302F', fontFamily: 'Roboto', fontStyle: 'normal', fontWeight: 'normal', fontSize: '48px', lineHeight: '56px', textAlign: 'center', paddingBottom: '40px' }}>Dashboard</Grid>
             <Grid className={classes.title}>
                 <TrendingUp style={{padding: '0 5px', fontSize: '35px'}}/>
                 <Typography style={{fontSize: '25px'}}>Trending Routes</Typography>
