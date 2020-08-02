@@ -14,6 +14,7 @@ class Trips extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+            fetching: '221%',
             showAdd: false,
             showUpdate: false,
             trips:[],
@@ -38,9 +39,10 @@ class Trips extends Component {
     componentWillReceiveProps(nextProps) {
         const {trips: {data, error}} = nextProps;
         if(error) {
+            this.setState({fetching: false})
             toast.error(error.message)
         } else if(data) {
-           this.setState({trips: data}); 
+           this.setState({trips: data, fetching: false}); 
         }
     }
 
@@ -133,7 +135,7 @@ class Trips extends Component {
     }
 
     render() { 
-        const {headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time, showUpdate, addError, updateError, submitDisabled, submitting } = this.state;
+        const {fetching, headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time, showUpdate, addError, updateError, submitDisabled, submitting } = this.state;
         const allChecked = trips.every(trip => trip.checked === true);
         const checkedTrips = trips.filter(trip => trip.checked === true);
         let {tp_fare: tpFare, setoff_time: setoffTime, vehicle_id: vehicleId, route_id: routeId} = checkedTrips[0] ? checkedTrips[0] : [{}];
@@ -163,6 +165,7 @@ class Trips extends Component {
             handleSubmit={this.handleSubmitUpdate} 
             toggleAdd={this.toggleUpdate} /> : ''}
             <SharedTable
+                fetching={fetching}
                 oneChecked={oneChecked} 
                 toggleUpdate={oneChecked && this.toggleUpdate} 
                 toggleAdd={this.toggleAdd} 

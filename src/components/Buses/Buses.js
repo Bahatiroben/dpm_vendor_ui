@@ -12,7 +12,7 @@ import { createVehiclePayloadValidator} from './validator';
 class Buses extends Component {
     constructor(props) {
         super(props);
-        this.state = { buses: [], newVehicle: {}, showAdd: false, showUpdate: false, submitDisabled: true, addError: '', updateError: '', submitting: false,
+        this.state = { fetching: '148%', buses: [], newVehicle: {}, showAdd: false, showUpdate: false, submitDisabled: true, addError: '', updateError: '', submitting: false,
         headers: [{label: 'PlateNo', key: 'number_plate'}, {label: 'Capacity', key: 'capacity'}, {label: 'Trips', key: 'trips'}]}
     }
 
@@ -24,8 +24,9 @@ class Buses extends Component {
     componentWillReceiveProps(nextProps) {
         const {vehicles: {error, data}} = nextProps;
         if(data) {
-            this.setState({buses: data})
+            this.setState({buses: data, fetching: false})
         } else {
+            this.setState({fetching: false})
             toast.error(error.message)
         }
     }
@@ -106,7 +107,7 @@ class Buses extends Component {
     }
 
     render() { 
-        const {headers, submitting, buses, showAdd, showUpdate, number_plate, capacity, submitDisabled, addError, updateError} = this.state;
+        const {headers, submitting, buses, showAdd, showUpdate, number_plate, capacity, submitDisabled, addError, updateError, fetching} = this.state;
         const allChecked = buses.every(bus => bus.checked === true);
         const checkedBuses = buses.filter(bus => bus.checked === true);
         const {capacity: busCapacity, number_plate: numberPlate} = checkedBuses[0] ? checkedBuses[0] : [{}]
@@ -133,7 +134,9 @@ class Buses extends Component {
                                             handleChange={this.handleUpdateChange} 
                                             handleSubmit={this.handleSubmitUpdate} 
                                             toggleAdd={this.toggleUpdate} /> : ''}
-            <BusesTable 
+
+            <BusesTable
+                fetching={fetching}
                 oneChecked={oneChecked}  
                 toggleUpdate={oneChecked && this.toggleUpdate} 
                 toggleAdd={this.toggleAdd} 

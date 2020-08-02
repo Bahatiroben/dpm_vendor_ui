@@ -9,7 +9,7 @@ import {toast} from 'react-toastify';
 class Routes extends Component {
     constructor(props) {
         super(props);
-        this.state = { routes: [],
+        this.state = { routes: [], fetching: '129.5%',
         headers: [{label: 'Route Code', key: 'route_code'}, 
         {label: 'From', key: 'start_point'}, 
         {label: 'To', key: 'destination'}] }
@@ -24,9 +24,10 @@ class Routes extends Component {
         const {routes: {data, error}} = nextProps;
 
         if(error) {
+            this.setState({fetching: false})
             toast.error(error.message);
         } else {
-            this.setState({routes: data});
+            this.setState({fetching: false, routes: data});
         }
     }
 
@@ -48,11 +49,11 @@ class Routes extends Component {
     }
 
     render() { 
-        const {headers, routes} = this.state;
+        const {headers, routes, fetching} = this.state;
         const allChecked = routes.every(route => route.checked == true);
         return ( 
         <Container  maxWidth={false}>
-            <SharedTable hideDock={true} handleCheck={this.handleCheck} tableBody={routes} headers={headers} allChecked={allChecked}/>
+            <SharedTable fetching={fetching} hideDock={true} handleCheck={this.handleCheck} tableBody={routes} headers={headers} allChecked={allChecked}/>
         </Container> );
     }
 }
