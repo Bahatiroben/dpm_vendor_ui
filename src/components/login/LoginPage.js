@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, 
-    Container, FormControl, InputLabel, Input, Grid
+    Container, FormControl, InputLabel, Input, Grid, CircularProgress
  } from '@material-ui/core'
 import TopNav from '../shared/topNav/Topnav';
 import {PersonPin, Person, Lock} from '@material-ui/icons';
@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 class LoginPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '', buttonDisabled: true }
+        this.state = { username: '', password: '', buttonDisabled: true, submitting: false }
     }
 
     handleChange = ({target}) => {
@@ -29,6 +29,7 @@ class LoginPage extends Component {
         const {username, password} = this.state;
         const {login} = this.props;
         login({username, password});
+        this.setState({submitting: true});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -41,10 +42,11 @@ class LoginPage extends Component {
         } else {
             toast.error(error.message);
         }
+        this.setState({submitting: false});
     }
 
     render() { 
-        const {username, password, buttonDisabled} = this.state;
+        const {username, password, buttonDisabled, submitting} = this.state;
         const classes = useStyles;
         return (<Container style={classes.authContainer} maxWidth={false}>
             <TopNav/>
@@ -53,15 +55,20 @@ class LoginPage extends Component {
               <div style={classes.fieldsContainer} >
                 <FormControl style={classes.root}>
                     <InputLabel style={classes.inputLabel} htmlFor="email-login"><Person/><span style={classes.fieldIcons}>Email</span></InputLabel>
-                    <Input name="username" value={username} onChange={this.handleChange} style={classes.inputField}  id="email-login"/>
+                    <Input autoComplete={false} name="username" value={username} onChange={this.handleChange} style={classes.inputField}  id="email-login"/>
                 </FormControl>
     
                 <FormControl style={classes.root}>
                     <InputLabel style={classes.inputLabel} htmlFor="password-login"><Lock/><span style={classes.fieldIcons}>Password</span></InputLabel>
-                    <Input name="password" value={password} onChange={this.handleChange} type="password" style={classes.inputField} id="password-login"/>
+                    <Input autoComplete={false} name="password" value={password} onChange={this.handleChange} type="password" style={classes.inputField} id="password-login"/>
                 </FormControl>
             </div>
-                <Button disabled={buttonDisabled} onClick={this.submit} style={classes.submitButton} size="medium" variant="contained" color="primary">Login</Button>
+                <Button 
+                disabled={buttonDisabled} 
+                onClick={this.submit} 
+                style={classes.submitButton} 
+                size="medium" variant="contained" 
+                color="primary"> {submitting ? <CircularProgress size={20} color="white" /> : 'Login' } </Button>
             </Grid>
         </Container> );
     }

@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 
 export default function SharedTable(props) {
   const classes = useStyles();
-  const {tableBody, headers, handleCheck, allChecked, toggleAdd, hideDock, toggleUpdate} = props;
+  const {tableBody, headers, handleCheck, allChecked, toggleAdd, hideDock, toggleUpdate, oneChecked} = props;
   return (
       <>
     <Grid className={classes.tableContainer}>
@@ -43,10 +43,10 @@ export default function SharedTable(props) {
         
         {!hideDock && <Grid>
           <StepButton onClick={toggleUpdate} style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
-            <Edit/>
+            <Edit style={{color: oneChecked ? '#000' : 'rgba(0, 0, 0, 0.54)'}}/>
           </StepButton>
           <StepButton onClick={toggleAdd} style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
-            <Add/>
+            <Add style={{color: '#000'}} />
           </StepButton>
         </Grid>}
     </Grid>

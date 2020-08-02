@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles, Grid, Link, Tooltip} from '@material-ui/core';
-import { Dashboard, DirectionsBus, DepartureBoard, CompareArrows } from '@material-ui/icons';
+import { Dashboard, DirectionsBus, CardTravel, CompareArrows } from '@material-ui/icons';
 
 const styles = makeStyles(theme => ({
 
@@ -34,7 +34,7 @@ const SideIconsMenu = () => {
         <Grid className={classes.record}>
             <Link href="/trips">
             <Tooltip title="Trips">
-                <DepartureBoard/>
+                <CardTravel/>
             </Tooltip>
             </Link>
         </Grid>

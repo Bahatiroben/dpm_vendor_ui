@@ -1,5 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
-import { Paper, Grid, Input, Button, FormControl, MenuItem, InputLabel, Select, Tooltip, TextField } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Paper, Grid, Input, Button, FormControl, MenuItem, InputLabel, Select, Tooltip, CircularProgress } from '@material-ui/core';
 import {connect} from 'react-redux';
 import { getVehicles } from '../../redux/actions/getVehiclesAction';
 import { getRoutes } from '../../redux/actions/getRoutesAction';
@@ -34,7 +34,7 @@ const AddTrip  =  (props) => {
         }
     }, [props.routes]);
 
-        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit, title, error, submitDisabled } = props;
+        const { toggleAdd, route_id, vehicle_id, tp_fare, setoff_time, handleChange, handleSubmit, title, error, submitDisabled, submitting } = props;
         return ( <Paper style={{width: '100vw', 
         height: '100vh', padding: '0px', outline: '0px',
         position: 'absolute', margin: '0px',
@@ -118,7 +118,7 @@ const AddTrip  =  (props) => {
                                 margin: '0px'}} 
                         size="medium" 
                         variant="contained" 
-                        color="primary">Submit</Button>
+                        color="primary">{submitting ? <CircularProgress size={20} color='white' /> : 'Submit' }</Button>
                 </Grid>
             </Grid>
         </Paper> );
