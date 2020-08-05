@@ -8,6 +8,8 @@ import { getTrips } from '../../redux/actions/getTripsAction';
 import { getRoutes } from '../../redux/actions/getRoutesAction';
 import {connect} from 'react-redux';
 import { toast } from 'react-toastify';
+import {CardsSkeleton} from './skeleton'
+import ContentLoader from 'react-content-loader';
 
 export const useStyles = makeStyles((theme) => ({
     container: {
@@ -28,9 +30,11 @@ const Dashboard = (props) => {
     const classes=useStyles();
     const [trips, setTrips]=useState([]);
     const [routes, setRoutes]=useState([]);
+    const [fetching, setFetching]=useState(true)
 
     useEffect(() => {
         const {getRoutes, getTrips} = props;
+        setFetching(true);
         getRoutes();
         getTrips();
     }, []);
@@ -38,6 +42,7 @@ const Dashboard = (props) => {
     useEffect(() => {
         const {trips, routes} = props;
         if(trips.error || routes.error) {
+            setFetching(false)
             if(trips.error) {
                 toast.error(trips.error.message);
             }
@@ -48,6 +53,7 @@ const Dashboard = (props) => {
         };
 
         if(trips.data || routes.data) {
+            setFetching(false)
             if(routes.data) {
                 setRoutes(routes.data.filter((route, index) => index < 8));
             }
@@ -67,7 +73,9 @@ const Dashboard = (props) => {
             </Grid>
             <Container maxWidth={false} style={{display: 'flex', flexWrap: 'wrap'}}>
                 {
-                    routes.map(route => <RouteCard route={route}/>)
+                    fetching === true ? <ContentLoader style={{width: '100%', margin: '0px', height: '360'}}>
+                    <CardsSkeleton/>
+                  </ContentLoader> : routes.map(route => <RouteCard route={route}/>)
                 }
             </Container>
             <Grid className={classes.title}>
@@ -76,7 +84,8 @@ const Dashboard = (props) => {
             </Grid>
             <Container maxWidth={false} style={{display: 'flex', flexWrap: 'wrap'}}>
                 {
-                    trips.map(trip => <TripCard trip={trip}/>)
+                    fetching === true ? <ContentLoader style={{width: '100%', margin: '0px', height: '360'}}>
+                    <CardsSkeleton/> </ContentLoader> : trips.map(trip => <TripCard trip={trip}/>)
                 }
             </Container>
         </Container>)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, Grid, Input, Button, TextField, Tooltip } from '@material-ui/core'
+import { Paper, Grid, Button, TextField, Tooltip, CircularProgress } from '@material-ui/core'
 class AddBus extends Component {
     constructor(props) {
         super(props);
@@ -7,7 +7,7 @@ class AddBus extends Component {
     }
 
     render() { 
-        const {number_plate, capacity, handleChange, handleSubmit, title, submitDisabled, error} = this.props;
+        const {number_plate, capacity, handleChange, handleSubmit, title, submitDisabled, error, submitting} = this.props;
         const {toggleAdd} = this.props;
         return ( <Paper  style={{width: '100vw', 
         height: '100vh', padding: '0px', outline: '0px',
@@ -23,8 +23,8 @@ class AddBus extends Component {
                     width: '80%', padding: '20px 30px 50px 30px',
                                 display: 'flex', 
                                 margin: 'auto', justifyContent: 'space-between'}}>
-                    <TextField onChange={handleChange} value={number_plate} name="number_plate" style={{color: '#A2302F'}} placeholder='Number plate'/>
-                    <TextField onChange={handleChange} value={capacity} name="capacity" InputProps={{ inputProps: { min: 1 } }} style={{color: '#A2302F'}} type='number' placeholder='Capacity'/>
+                    <TextField onChange={handleChange} value={number_plate} name='number_plate' style={{color: '#A2302F'}} placeholder='Number plate'/>
+                    <TextField onChange={handleChange} value={capacity} name='capacity' InputProps={{ inputProps: { min: 1 } }} style={{color: '#A2302F'}} type='number' placeholder='Capacity'/>
                 </Grid>
                 <Grid style={{ 
                     width: '80%', padding: '10px 5px',
@@ -34,16 +34,16 @@ class AddBus extends Component {
                         style={{padding: '5px 35px', 
                                 display: 'block', 
                                 margin: '0px'}} 
-                        size="medium" 
-                        variant="contained" 
-                        color="secondary">Cancel</Button>
+                        size='medium' 
+                        variant='contained' 
+                        color='secondary'>Cancel</Button>
                 <Button disabled={submitDisabled} onClick={handleSubmit} 
                         style={{padding: '5px 35px', 
                                 display: 'block', 
                                 margin: '0px'}} 
-                        size="medium" 
-                        variant="contained" 
-                        color="primary">Submit</Button>
+                        size='medium' 
+                        variant='contained' 
+                        color='primary'>{submitting ? <CircularProgress size={20} color='white' /> : 'Submit' }</Button>
                 </Grid>
             </Grid>
         </Paper> );

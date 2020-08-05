@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Paper, makeStyles, Grid, StepButton, Link, Tooltip} from '@material-ui/core';
-import { Dashboard, DirectionsBus, DepartureBoard, CompareArrows, Apps } from '@material-ui/icons';
+import { Dashboard, DirectionsBus, CompareArrows, Apps, CardTravel } from '@material-ui/icons';
 import SideIconsMenu from './SideIconsMenu';
 
 
@@ -68,7 +68,7 @@ return (
                 </Grid>
                 <Grid className={classes.record}>
                     <Link href="/trips">
-                        <DepartureBoard/>
+                        <CardTravel/>
                         <span className={classes.label}>Trips</span>
                     </Link>
                 </Grid>

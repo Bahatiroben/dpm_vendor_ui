@@ -16,6 +16,7 @@ import Trips from './components/Trips/Trips'
 import { WithAuth } from './components/withAuth/WithAuth'
 import Routes from './components/routes/RoutesPage';
 import SingleRoute from './components/singleRoute/SingleRoute';
+import {  Footer } from './components/shared/footer/Footer'
 
 function App(props) {
   return (
@@ -35,11 +36,10 @@ function App(props) {
           <Redirect to="/404" />
           </Switch>
         </Router>
+        <div style={{paddingTop: '10px'}}><Footer/></div>
       </div>
       </Provider>
     </MuiThemeProvider>
   );
 }
-
-
 export default App;

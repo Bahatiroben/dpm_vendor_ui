@@ -1,8 +1,10 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import {Table, TableBody, TableContainer, TableHead, TableRow, Paper, Grid, Input, StepButton} from '@material-ui/core';
+import ContentLoader from 'react-content-loader';
 import {Edit, Add} from '@material-ui/icons';
 import { MakeRow } from '../tableRow/TableRow'
+import {TableSkeleton} from './TableSkeleton'
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
@@ -35,7 +37,7 @@ const useStyles = makeStyles({
 
 export default function SharedTable(props) {
   const classes = useStyles();
-  const {tableBody, headers, handleCheck, allChecked, toggleAdd, hideDock, toggleUpdate} = props;
+  const {tableBody, headers, handleCheck, allChecked, toggleAdd, hideDock, toggleUpdate, oneChecked, fetching} = props;
   return (
       <>
     <Grid className={classes.tableContainer}>
@@ -43,10 +45,10 @@ export default function SharedTable(props) {
         
         {!hideDock && <Grid>
           <StepButton onClick={toggleUpdate} style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
-            <Edit/>
+            <Edit style={{color: oneChecked ? '#000' : 'rgba(0, 0, 0, 0.54)'}}/>
           </StepButton>
           <StepButton onClick={toggleAdd} style={{marginLeft: '10px', cursor: 'pointer', borderRadius: '50%', width: '50px'}}>
-            <Add/>
+            <Add style={{color: '#000'}} />
           </StepButton>
         </Grid>}
     </Grid>
@@ -57,6 +59,10 @@ export default function SharedTable(props) {
             {MakeRow({record: headers, classes, header: true, allChecked, handleCheck})}
           </TableRow>
         </TableHead>
+        {
+          fetching ? <ContentLoader style={{width: fetching, padding: '0px', height: '360'}}>
+          <TableSkeleton/>
+       </ContentLoader> :
         <TableBody>
           {tableBody.map((row) => (
             <StyledTableRow>
@@ -66,6 +72,7 @@ export default function SharedTable(props) {
             </StyledTableRow>
           ))}
         </TableBody>
+        }
       </Table>
     </TableContainer>
     </>

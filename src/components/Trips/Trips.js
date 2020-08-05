@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import SharedTable from '../shared/sharedTable/SharedTable';
 import { getTrips} from '../../redux/actions/getTripsAction';
 import {connect} from 'react-redux';
@@ -14,11 +14,13 @@ class Trips extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+            fetching: '221%',
             showAdd: false,
             showUpdate: false,
             trips:[],
             submitDisabled: true,
             addError: '',
+            submitting: false,
             headers: [
                 {label: 'Vehicle', key: 'number_plate'}, 
                 {label: 'From', key: 'start_point'},
@@ -37,9 +39,10 @@ class Trips extends Component {
     componentWillReceiveProps(nextProps) {
         const {trips: {data, error}} = nextProps;
         if(error) {
+            this.setState({fetching: false})
             toast.error(error.message)
         } else if(data) {
-           this.setState({trips: data}); 
+           this.setState({trips: data, fetching: false}); 
         }
     }
 
@@ -95,10 +98,13 @@ class Trips extends Component {
 
     handleSubmit = async () => {
         const {setoff_time, tp_fare, route_id, vehicle_id} = this.state;
-        const dateTime = moment(setoff_time, 'YYYY-MM-DDTHH:mm').format('DD/MM/YYYY HH:mm:ss')
+        const dateTime = moment(setoff_time, 'YYYY-MM-DDTHH:mm').format('DD/MM/YYYY HH:mm:ss');
+        this.setState({submitting: true});
         const result = await addTrip({setoff_time: dateTime, tp_fare, route_id, vehicle_id});
+        this.setState({submitting: false});
         if(result === true) {
             this.toggleAdd();
+            this.props.getTrips()
         }
     }
 
@@ -112,28 +118,33 @@ class Trips extends Component {
             route_id,
             vehicle_id
         } = trip[0];
-        const dateTime = moment(setoff_time, 'YYYY-MM-DDTHH:mm').format('DD/MM/YYYY HH:mm:ss')
+        const dateTime = moment(setoff_time, 'YYYY-MM-DDTHH:mm').format('DD/MM/YYYY HH:mm:ss');
+        this.setState({submitting: true});
         const result = await updateTrip({
             id,
             setoff_time: dateTime,
             tp_fare,
             route_id,
             vehicle_id });
+            this.setState({submitting: false});
         if(result) {
-            this.toggleUpdate()
+            this.toggleUpdate();
+            this.props.getTrips()
         }
         
     }
 
     render() { 
-        const {headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time, showUpdate, addError, updateError, submitDisabled } = this.state;
+        const {fetching, headers, trips, showAdd, route_id, vehicle_id, tp_fare, setoff_time, showUpdate, addError, updateError, submitDisabled, submitting } = this.state;
         const allChecked = trips.every(trip => trip.checked === true);
         const checkedTrips = trips.filter(trip => trip.checked === true);
         let {tp_fare: tpFare, setoff_time: setoffTime, vehicle_id: vehicleId, route_id: routeId} = checkedTrips[0] ? checkedTrips[0] : [{}];
         const oneChecked = checkedTrips.length === 1;
         return ( 
-        <Container maxWidth={false} >
+        <Container style={{paddingTop: '50px'}} maxWidth={false} >
+            <Grid style={{ textAlign: 'center', fontFamily: 'verdana', fontSize: '30px', paddingBottom: '50px'}}>Trips</Grid>
             {showAdd ? <AddTrip
+            submitting={submitting}
             submitDisabled={submitDisabled}
             error={addError}
             title="Add new Trip"
@@ -144,7 +155,8 @@ class Trips extends Component {
             toggleAdd={this.toggleAdd}/> : ''}
 
         {showUpdate && oneChecked ? <AddTrip
-        submitDisabled={submitDisabled}
+            submitting={submitting}
+            submitDisabled={submitDisabled}
             error={updateError}
             title="Update Trip"
             route_id={routeId} vehicle_id={vehicleId}
@@ -152,7 +164,15 @@ class Trips extends Component {
             handleChange={this.handleUpdateChange} 
             handleSubmit={this.handleSubmitUpdate} 
             toggleAdd={this.toggleUpdate} /> : ''}
-            <SharedTable toggleUpdate={oneChecked && this.toggleUpdate} toggleAdd={this.toggleAdd} handleCheck={this.handleCheck} tableBody={trips} headers={headers} allChecked={allChecked}/>
+            <SharedTable
+                fetching={fetching}
+                oneChecked={oneChecked} 
+                toggleUpdate={oneChecked && this.toggleUpdate} 
+                toggleAdd={this.toggleAdd} 
+                handleCheck={this.handleCheck} 
+                tableBody={trips} 
+                headers={headers} 
+                allChecked={allChecked}/>
         </Container> );
     }
 }
