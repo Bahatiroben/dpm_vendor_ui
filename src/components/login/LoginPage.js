@@ -43,13 +43,21 @@ class LoginPage extends Component {
     this.setState({ submitting: true });
   };
 
+  componentDidMount(){
+    const accessToken = localStorage.getItem("DPMAccessToken");
+    const refreshTonek = localStorage.getItem("DPMRefreshToken");
+    if(accessToken || refreshTonek){
+      this.props.history.push('/dashboard');
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { data, error, history } = nextProps;
+    const { data, error } = nextProps;
     if (data) {
       toast.success(data.message);
       localStorage.setItem("DPMAccessToken", data.access_token);
       localStorage.setItem("DPMRefreshToken", data.refresh_token);
-      history.push("/");
+      window.location.assign('/dashboard')
     } else {
       toast.error(error);
     }

@@ -10,3 +10,5 @@ export const ADD_VEHICLE_SUCCESS = Symbol('ADD_VEHICLE_SUCCESS');
 export const ADD_VEHICLE_ERROR = Symbol('ADD_VEHICLE_ERROR');
 export const ADD_TRIP_SUCCESS = Symbol('ADD_ROUTE_SUCCESS');
 export const ADD_TRIP_ERROR = Symbol('ADD_TRIP_ERROR');
+export const GET_STAFF_SUCCESS = Symbol('GET_STAFF_SUCCESS');
+export const GET_STAFF_ERROR = Symbol('GET_STAFF_ERROR');

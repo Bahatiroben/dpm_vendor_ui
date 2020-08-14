@@ -13,6 +13,8 @@ import {
   CompareArrows,
   Apps,
   CardTravel,
+  People,
+  ExitToApp
 } from "@material-ui/icons";
 import SideIconsMenu from "./SideIconsMenu";
 
@@ -38,6 +40,8 @@ const styles = makeStyles((theme) => ({
   label: {
     position: "relative",
     top: "-4px",
+    overflowWrap: 'break-word',
+    display: 'inline'
   },
   record: {
     textAlign: "left",
@@ -128,6 +132,18 @@ export const SideNav = (props) => {
             <Link href="/routes">
               <CompareArrows />
               <span className={classes.label}>Routes</span>
+            </Link>
+          </Grid>
+          <Grid className={classes.record}>
+            <Link href="/users">
+              <People/>
+              <span className={classes.label}>Staff</span>
+            </Link>
+          </Grid>
+          <Grid className={classes.record}>
+            <Link href="/logout">
+              <ExitToApp/>
+              <span className={classes.label}>Logout</span>
             </Link>
           </Grid>
         </Grid>
