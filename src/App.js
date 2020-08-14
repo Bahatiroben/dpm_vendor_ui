@@ -18,7 +18,7 @@ import { WithAuth } from "./components/withAuth/WithAuth";
 import Routes from "./components/routes/RoutesPage";
 import SingleRoute from "./components/singleRoute/SingleRoute";
 import { Footer } from "./components/shared/footer/Footer";
-import GetUsers from "./components/Users/GetUsers";
+import Staff from "./components/Staff/StaffPage";
 function App(props) {
   return (
     <MuiThemeProvider theme={AppTheme}>
@@ -35,7 +35,7 @@ function App(props) {
               <Route exact path="/trips" component={WithAuth(Trips)} />
               <Route exact path="/routes" component={WithAuth(Routes)} />
               <Route exact path="/dashboard" component={WithAuth(Dashboard)} />
-              <Route exact path="/users" component={WithAuth(GetUsers)} />
+              <Route exact path="/users" component={WithAuth(Staff)} />
               <Route
                 exact
                 path="/routes/:id"

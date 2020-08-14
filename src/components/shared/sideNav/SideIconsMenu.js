@@ -66,14 +66,14 @@ const SideIconsMenu = () => {
       </Grid>
       <Grid className={classes.record}>
         <Link href="/users">
-          <Tooltip title="users">
+          <Tooltip title="Staff">
             <PeopleIcon />
           </Tooltip>
         </Link>
       </Grid>
       <Grid className={classes.record}>
         <Link href="/logout">
-          <Tooltip title="logout">
+          <Tooltip title="Logout">
             <ExitToAppIcon />
           </Tooltip>
         </Link>

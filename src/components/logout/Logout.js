@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { toast } from "react-toastify";
+
 class Logout extends Component {
   componentDidMount() {
     localStorage.removeItem("DPMAccessToken");
@@ -7,7 +7,7 @@ class Logout extends Component {
     window.location.assign("/login");
   }
   render() {
-    return null;
+    return <></>;
   }
 }
 export default Logout;

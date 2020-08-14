@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SideNav } from "../shared/sideNav/SideNav";
 import {
-  Paper,
-  Button,
   Container,
   Typography,
   makeStyles,
