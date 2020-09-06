@@ -16,9 +16,11 @@ import Buses from "./components/Buses/Buses"
 import Trips from "./components/Trips/Trips"
 import {WithAuth} from "./components/withAuth/WithAuth"
 import Routes from "./components/routes/RoutesPage"
-import SingleRoute from "./components/singleRoute/SingleRoute"
 import {Footer} from "./components/shared/footer/Footer"
 import Staff from "./components/Staff/StaffPage"
+import SingleRoute from "./components/singleRoute/SingleRoute"
+import GetTickets from "./components/Trips/GetTickets"
+
 function App(props) {
   return (
     <MuiThemeProvider theme={AppTheme}>
@@ -44,8 +46,13 @@ function App(props) {
                 <Route
                   exact
                   path="/routes/:id"
-                  component={WithAuth(SingleRoute)}
+                  component={SingleRoute}
+                  // render={(props) => {
+                  //   // <Dashboard {...props} isAuthed={true} />
+                  //   WithAuth(SingleRoute, {...props})
+                  // }}
                 />
+                <Route exact path="/trip/:id" component={GetTickets} />
                 <Redirect to="/404" />
               </Switch>
             </Router>
