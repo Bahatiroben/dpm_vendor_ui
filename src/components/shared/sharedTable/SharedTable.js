@@ -68,7 +68,7 @@ export default function SharedTable(props) {
     <>
       <Grid className={classes.tableContainer}>
         <Input
-          placeholder="Search Bus"
+          placeholder="Search"
           disableUnderline
           style={{
             padding: "0px 20px",
