@@ -58,6 +58,7 @@ export default function SharedTable(props) {
     toggleUpdate,
     oneChecked,
     fetching,
+    search,
   } = props
   const [page, setPage] = React.useState(1)
   const handleChangePage = (event, newPage) => {
@@ -67,17 +68,19 @@ export default function SharedTable(props) {
   return (
     <>
       <Grid className={classes.tableContainer}>
-        <Input
-          placeholder="Search"
-          disableUnderline
-          style={{
-            padding: "0px 20px",
-            width: "30%",
-            backgroundColor: "#FFFFFF",
-            border: "1px solid #A2302F",
-            borderRadius: "50px",
-          }}
-        />
+        {search && (
+          <Input
+            placeholder="Search"
+            disableUnderline
+            style={{
+              padding: "0px 20px",
+              width: "30%",
+              backgroundColor: "#FFFFFF",
+              border: "1px solid #A2302F",
+              borderRadius: "50px",
+            }}
+          />
+        )}
 
         {!hideDock && (
           <Grid>

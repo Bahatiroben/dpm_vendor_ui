@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Container, Grid, Tabs, makeStyles, Typography} from "@material-ui/core"
+import {Container, Grid, Tabs} from "@material-ui/core"
 import {getSingleTrip} from "../../redux/actions/getTripsAction"
 import {connect} from "react-redux"
 import {toast} from "react-toastify"
@@ -9,7 +9,6 @@ import {
   CardTravel,
   DirectionsBus,
   MoreVert,
-  Receipt,
   ArrowRight,
 } from "@material-ui/icons"
 import {Redirect} from "react-router"
@@ -30,11 +29,6 @@ class SingleTrip extends Component {
       busesHeaders: [
         {label: "PlateNo", key: "number_plate"},
         {label: "Capacity", key: "capacity"},
-        {label: "Time", key: "time"},
-      ],
-      ticketsHeaders: [
-        {label: "Ticket NO", key: "ticket_no"},
-        {label: "Name", key: "name"},
         {label: "Time", key: "time"},
       ],
     }
@@ -61,14 +55,7 @@ class SingleTrip extends Component {
   }
 
   render() {
-    const {
-      fetching,
-      headers,
-      trips,
-      tabNo,
-      tripsHeaders,
-      busesHeaders,
-    } = this.state
+    const {fetching, trips, tabNo, tripsHeaders, busesHeaders} = this.state
     const accessToken = localStorage.getItem("DPMAccessToken")
     const refreshToken = localStorage.getItem("DPMRefreshToken")
     if (!accessToken || !refreshToken) return <Redirect to="/login" />

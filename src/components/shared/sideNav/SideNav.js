@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react"
 import {
   Paper,
   makeStyles,
@@ -6,7 +6,7 @@ import {
   StepButton,
   Link,
   Tooltip,
-} from "@material-ui/core";
+} from "@material-ui/core"
 import {
   Dashboard,
   DirectionsBus,
@@ -14,9 +14,10 @@ import {
   Apps,
   CardTravel,
   People,
-  ExitToApp
-} from "@material-ui/icons";
-import SideIconsMenu from "./SideIconsMenu";
+  ExitToApp,
+} from "@material-ui/icons"
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn"
+import SideIconsMenu from "./SideIconsMenu"
 
 const styles = makeStyles((theme) => ({
   container: {
@@ -40,30 +41,30 @@ const styles = makeStyles((theme) => ({
   label: {
     position: "relative",
     top: "-4px",
-    overflowWrap: 'break-word',
-    display: 'inline'
+    overflowWrap: "break-word",
+    display: "inline",
   },
   record: {
     textAlign: "left",
     marginBottom: "40px",
     paddingLeft: "30px",
   },
-}));
+}))
 
 export const SideNav = (props) => {
-  const classes = styles();
-  const [hidden, setHide] = useState(true);
+  const classes = styles()
+  const [hidden, setHide] = useState(true)
 
   const toggleNav = () => {
-    setHide(!hidden);
-  };
+    setHide(!hidden)
+  }
 
   return (
     <Paper
       style={
         hidden
-          ? { left: "-18%", transition: "left 0.5s" }
-          : { left: "0px", transition: "left 0.5s" }
+          ? {left: "-18%", transition: "left 0.5s"}
+          : {left: "0px", transition: "left 0.5s"}
       }
       className={classes.container}
       elevation={1}
@@ -84,7 +85,7 @@ export const SideNav = (props) => {
         <Tooltip title="Menu">
           <Apps
             onClick={toggleNav}
-            style={{ fontSize: "40px", color: "#A2302F" }}
+            style={{fontSize: "40px", color: "#A2302F"}}
           />
         </Tooltip>
       </StepButton>
@@ -136,18 +137,24 @@ export const SideNav = (props) => {
           </Grid>
           <Grid className={classes.record}>
             <Link href="/users">
-              <People/>
+              <People />
               <span className={classes.label}>Staff</span>
             </Link>
           </Grid>
           <Grid className={classes.record}>
+            <Link href="/transactions">
+              <MonetizationOnIcon />
+              <span className={classes.label}>Transactions</span>
+            </Link>
+          </Grid>
+          <Grid className={classes.record}>
             <Link href="/logout">
-              <ExitToApp/>
+              <ExitToApp />
               <span className={classes.label}>Logout</span>
             </Link>
           </Grid>
         </Grid>
       </Grid>
     </Paper>
-  );
-};
+  )
+}

@@ -1,13 +1,5 @@
 import React from "react"
-import {
-  Container,
-  Typography,
-  Tabs,
-  makeStyles,
-  Grid,
-  Paper,
-  Box,
-} from "@material-ui/core"
+import {Box} from "@material-ui/core"
 import SharedTable from "../shared/sharedTable/SharedTable"
 
 const TabPanel = ({value, index, headers, tableBody, fetching}) => {
