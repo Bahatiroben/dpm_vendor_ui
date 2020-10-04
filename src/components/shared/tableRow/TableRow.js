@@ -12,6 +12,7 @@ export const MakeRow = function ({
   allChecked,
 }) {
   let TableRecord = []
+  let path
   const checked = header
     ? allChecked
     : content && (content.checked === undefined ? false : content.checked)
@@ -19,11 +20,15 @@ export const MakeRow = function ({
   record.forEach((element, index) => {
     if (index === 0) {
       if (element.key === "route_code") {
+        path = "routes"
         TableRecord.push(
           <StyledTableCell key={index} align="left">
             <Link
-              style={{textDecoration: "none", color: "#A2302F"}}
-              to={`/routes/${id}`}
+              style={{
+                textDecoration: "none",
+                color: "#A2302F",
+              }}
+              to={`/${path}/${id}`}
             >
               <Checkbox
                 onChange={handleCheck}
@@ -38,25 +43,7 @@ export const MakeRow = function ({
           </StyledTableCell>
         )
       } else if (element.key === "number_plate") {
-        TableRecord.push(
-          <StyledTableCell key={index} align="left">
-            <Link
-              style={{textDecoration: "none", color: "#A2302F"}}
-              to={`/trip/${id}`}
-            >
-              <Checkbox
-                onChange={handleCheck}
-                checked={checked}
-                id={id}
-                size="medium"
-                className={classes.check}
-                style={{color: "#A2302F"}}
-              />
-              {content ? content[element.key] : element.label}
-            </Link>
-          </StyledTableCell>
-        )
-      } else {
+        path = "trip"
         TableRecord.push(
           <StyledTableCell key={index} align="left">
             <Checkbox
@@ -67,14 +54,42 @@ export const MakeRow = function ({
               className={classes.check}
               style={{color: "#A2302F"}}
             />
-            {content ? content[element.key] : element.label}
+            <Link
+              style={{textDecoration: "none", color: "#A2302F"}}
+              to={`/${path}/${id}`}
+            >
+              {content ? content[element.key] : element.label}
+            </Link>
           </StyledTableCell>
         )
       }
+      // else {
+      //   TableRecord.push(
+      //     <StyledTableCell key={index} align="left">
+      //       <Checkbox
+      //         onChange={handleCheck}
+      //         checked={checked}
+      //         id={id}
+      //         size="medium"
+      //         className={classes.check}
+      //         style={{color: "#A2302F"}}
+      //       />
+      //       {content ? content[element.key] : element.label}
+      //     </StyledTableCell>
+      //   )
+      // }
     } else {
       TableRecord.push(
         <StyledTableCell key={index} align="left">
-          {content ? content[element.key] : element.label}
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "#A2302F",
+            }}
+            to={`/${path}/${id}`}
+          >
+            {content ? content[element.key] : element.label}
+          </Link>
         </StyledTableCell>
       )
     }
