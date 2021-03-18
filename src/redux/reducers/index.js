@@ -5,6 +5,7 @@ import routesReducer from "./getRoutesReducer"
 import tripsReducer from "./getTripsReducer"
 import staffReducer from "./getStaffReducer"
 import ticketsReducer from "./getTicketsReducer"
+import transactionReducer from "./getTransaction"
 
 export default combineReducers({
   loginReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   trips: tripsReducer,
   tickets: ticketsReducer,
   staff: staffReducer,
+  transactions: transactionReducer,
 })

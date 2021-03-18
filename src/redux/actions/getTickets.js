@@ -13,6 +13,7 @@ const processTickets = (dispatch, data) => {
       phone_number,
       start_point,
       destination,
+      status_name,
     } = entry
     const [date, time] = date_created.split("T")
     const bookedTime = time.split(".")[0]
@@ -28,6 +29,7 @@ const processTickets = (dispatch, data) => {
       phone_number,
       start_point,
       destination,
+      status_name,
     }
   })
 

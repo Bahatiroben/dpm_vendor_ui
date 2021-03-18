@@ -1,14 +1,14 @@
-import React from "react";
-import { makeStyles, Grid, Link, Tooltip } from "@material-ui/core";
-import PeopleIcon from "@material-ui/icons/People";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import React from "react"
+import {makeStyles, Grid, Link, Tooltip} from "@material-ui/core"
+import PeopleIcon from "@material-ui/icons/People"
+import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import {
   Dashboard,
   DirectionsBus,
   CardTravel,
   CompareArrows,
-} from "@material-ui/icons";
-
+} from "@material-ui/icons"
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn"
 const styles = makeStyles((theme) => ({
   record: {
     textAlign: "left",
@@ -16,10 +16,10 @@ const styles = makeStyles((theme) => ({
     paddingRight: "30px",
     paddingLeft: "14px",
   },
-}));
+}))
 
 const SideIconsMenu = () => {
-  const classes = styles();
+  const classes = styles()
   return (
     <Grid
       style={{
@@ -72,6 +72,13 @@ const SideIconsMenu = () => {
         </Link>
       </Grid>
       <Grid className={classes.record}>
+        <Link href="/transactions">
+          <Tooltip title="Transactions">
+            <MonetizationOnIcon />
+          </Tooltip>
+        </Link>
+      </Grid>
+      <Grid className={classes.record}>
         <Link href="/logout">
           <Tooltip title="Logout">
             <ExitToAppIcon />
@@ -79,7 +86,7 @@ const SideIconsMenu = () => {
         </Link>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default SideIconsMenu;
+export default SideIconsMenu

@@ -1,9 +1,4 @@
-import {
-  GET_TRIPS_ERROR,
-  GET_TRIPS_SUCCESS,
-  GET_TICKETS_ERROR,
-  GET_TICKETS_SUCCESS,
-} from "./actionTypes"
+import {GET_TRIPS_ERROR, GET_TRIPS_SUCCESS} from "./actionTypes"
 import {renewSession, getData} from "./utils"
 
 const processData = (dispatch, data) => {

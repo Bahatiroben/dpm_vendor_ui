@@ -20,6 +20,7 @@ import {Footer} from "./components/shared/footer/Footer"
 import Staff from "./components/Staff/StaffPage"
 import SingleRoute from "./components/singleRoute/SingleRoute"
 import GetTickets from "./components/Trips/GetTickets"
+import GetTransactions from "./components/Transactions/GetTransactions"
 
 function App(props) {
   return (
@@ -42,17 +43,10 @@ function App(props) {
                   path="/dashboard"
                   component={WithAuth(Dashboard)}
                 />
-                <Route exact path="/users" component={WithAuth(Staff)} />
-                <Route
-                  exact
-                  path="/routes/:id"
-                  component={SingleRoute}
-                  // render={(props) => {
-                  //   // <Dashboard {...props} isAuthed={true} />
-                  //   WithAuth(SingleRoute, {...props})
-                  // }}
-                />
+                <Route exact path="/users" component={Staff} />
+                <Route exact path="/routes/:id" component={SingleRoute} />
                 <Route exact path="/trip/:id" component={GetTickets} />
+                <Route exact path="/transactions" component={GetTransactions} />
                 <Redirect to="/404" />
               </Switch>
             </Router>

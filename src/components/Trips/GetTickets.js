@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import {getTickets} from "../../redux/actions/getTickets"
 import {connect} from "react-redux"
 import {toast} from "react-toastify"
-import {Container, Typography} from "@material-ui/core"
+import {Container, Typography, CircularProgress} from "@material-ui/core"
 import SharedTable from "../shared/sharedTable/SharedTable"
 
 const Get = (props) => {
@@ -10,7 +10,7 @@ const Get = (props) => {
   const [totalCapacity, setTotalCapacity] = useState(null)
   const [noTickets, setNoTicktes] = useState(false)
   const [fetching, setFetching] = useState("156.5%")
-  const [headers, setHeaders] = useState([
+  const headers = [
     {label: "Ticket No", key: "ticket_number"},
     {label: "From", key: "start_point"},
     {label: "To", key: "destination"},
@@ -18,7 +18,8 @@ const Get = (props) => {
     {label: "Capacity", key: "ticket_capacity"},
     {label: "Created Date", key: "date"},
     {label: "Created Time", key: "bookedTime"},
-  ])
+    {label: "Status", key: "status_name"},
+  ]
 
   useEffect(() => {
     const {getTickets, match} = props
@@ -63,7 +64,10 @@ const Get = (props) => {
         <Container maxWidth={false}>
           <Typography
             variant="h4"
-            style={{textAlign: "center", paddingTop: 30}}
+            style={{
+              textAlign: "center",
+              paddingTop: noTickets ? 100 : 30,
+            }}
           >
             {noTickets ? "No tickets available" : "Tickets"}
           </Typography>
@@ -72,16 +76,26 @@ const Get = (props) => {
             color="primary"
             style={{textAlign: "center", paddingTop: 10}}
           >
-            {noTickets ? "" : `Total Capacity: ${totalCapacity}`}
+            {fetching ? (
+              <CircularProgress />
+            ) : noTickets ? (
+              ""
+            ) : (
+              `Total Capacity: ${totalCapacity}`
+            )}
           </Typography>
-          <SharedTable
-            fetching={fetching}
-            hideDock={true}
-            tableBody={tickets}
-            headers={headers}
-            // handleCheck={this.handleCheck}
-            // allChecked={allChecked}
-          />
+          {!noTickets ? (
+            <SharedTable
+              fetching={fetching}
+              hideDock={true}
+              tableBody={tickets}
+              headers={headers}
+              // handleCheck={this.handleCheck}
+              // allChecked={allChecked}
+            />
+          ) : (
+            ""
+          )}
         </Container>
       )}
     </>
