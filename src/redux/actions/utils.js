@@ -2,7 +2,7 @@ import Api from'../../config/axios';
 
 export const renewSession = async (error) => {
     const axios = Api.initiate();
-    const refreshToken = localStorage.getItem('DPMRefreshToken');
+    const refreshToken = await localStorage.getItem('DPMRefreshToken');
     if(error.response && (error.response.status === 401 || error.message === 'Token has expired') && refreshToken) {
         try{
             const result = await axios.post('/token/refresh', {}, {headers: {Authorization: `Bearer ${refreshToken}`}});
@@ -10,6 +10,8 @@ export const renewSession = async (error) => {
             Api.ACCESS_TOKEN = result.data.access_token;
             return result;
         } catch(err) {
+            await localStorage.removeItem('DPMAccessToken');
+            await localStorage.removeItem('DPMRefreshToken');
             return err;
         }
 
