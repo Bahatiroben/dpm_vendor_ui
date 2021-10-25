@@ -13,7 +13,7 @@ export const Footer = () => {
           paddingTop: "10px",
         }}
       >
-        © 2020 Copyright DPM
+        © {(new Date()).getFullYear()} Copyright DPM
       </Grid>
     </div>
   )
